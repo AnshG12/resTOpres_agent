@@ -49,13 +49,10 @@ class BeamerGenerator:
             'preliminaries', 'notation'
         ]
 
-        self.skip_keywords = [
-            'reference', 'bibliography', 'appendix', 'acknowledgement', 'supplementary',
-            'acknowledgment', 'prompt example', 'naming variants', 'use of large language'
-        ]
+        # Removed skip_keywords - Let LLM decide section importance instead of hardcoded filtering
     def generate(self, nodes: List[TexNode], user_prompt: str = "", summary_content: Optional[str] = None) -> str:
         """
-        Generate Beamer LaTeX code from parsed nodes with intelligent filtering.
+        Generate Beamer LaTeX code from parsed nodes with dynamic budget allocation.
 
         Args:
             nodes: List of TexNode objects from parser
@@ -63,7 +60,7 @@ class BeamerGenerator:
             summary_content: Optional LLM-generated summary for overview slide
 
         Returns:
-            Complete Beamer LaTeX code with limited slide count
+            Complete Beamer LaTeX code filling the slide budget
         """
         beamer_code = self._generate_preamble()
         beamer_code += "\n\\begin{document}\n\n"
@@ -75,23 +72,46 @@ class BeamerGenerator:
         if summary_content:
             beamer_code += self._generate_overview_slide(summary_content)
 
-        # Filter and prioritize sections based on NO-BORE rule
-        filtered_sections = self._filter_and_prioritize_sections(nodes)
+        # Collect all sections (filtering based on presentation style)
+        filtered_sections = self._filter_and_prioritize_sections(nodes, user_prompt)
+        total_sections = len(filtered_sections)
 
-        # Generate content slides with strict limits
+        # Track budget dynamically
+        sections_processed = 0
+
+        # Generate content slides with dynamic budget allocation
         for section_info in filtered_sections:
             if self.slide_count >= self.max_slides:
                 break  # Stop when we hit max slides
 
             node = section_info['node']
             priority = section_info['priority']
-            max_slides_for_section = section_info['max_slides']
 
+            # Calculate remaining budget
+            remaining_budget = self.max_slides - self.slide_count
+
+            # Check if section has visual content (figures/tables)
+            has_visual_content = any(
+                c.type in ['figure', 'table'] for c in node.children
+            )
+
+            # Calculate dynamic budget for this section
+            max_slides_for_section = self._calculate_section_budget(
+                section_index=sections_processed,
+                total_sections=total_sections,
+                remaining_budget=remaining_budget,
+                priority=priority,
+                has_visual_content=has_visual_content
+            )
+
+            # Generate section frames with dynamically allocated budget
             beamer_code += self._generate_section_frames(
                 node,
                 max_slides=max_slides_for_section,
                 priority=priority
             )
+
+            sections_processed += 1
 
         beamer_code += "\n\\end{document}\n"
 
@@ -119,13 +139,10 @@ class BeamerGenerator:
     def _classify_section_priority(self, section_title: str) -> str:
         """
         Classify section priority based on keywords.
-        Returns: 'skip', 'low', 'medium', or 'high'
+        Returns: 'low', 'medium', or 'high'
+        (No longer skips sections - LLM will decide importance)
         """
         title_lower = section_title.lower()
-
-        # Check if should be skipped entirely
-        if any(keyword in title_lower for keyword in self.skip_keywords):
-            return 'skip'
 
         # Check if high priority
         if any(keyword in title_lower for keyword in self.high_priority_keywords):
@@ -138,13 +155,13 @@ class BeamerGenerator:
         # Default to medium priority
         return 'medium'
 
-    def _filter_and_prioritize_sections(self, nodes: List[TexNode]) -> List[Dict]:
+    def _filter_and_prioritize_sections(self, nodes: List[TexNode], user_prompt: str = "") -> List[Dict]:
         """
-        Filter and prioritize sections according to NO-BORE rule.
-        Returns list of section info dicts with priority and max_slides.
+        Collect sections and classify priority.
+        Uses LLM to determine if sections should be skipped based on presentation style.
+        Budget allocation will be done dynamically during generation.
         """
         sections = []
-        low_priority_combined_content = []
 
         for node in nodes:
             if node.type != 'section':
@@ -152,60 +169,77 @@ class BeamerGenerator:
 
             priority = self._classify_section_priority(node.content)
 
-            if priority == 'skip':
-                continue  # Skip entirely (appendices, acknowledgements, etc.)
+            # If LLM is available, use it to determine if section should be included
+            if self.content_extractor:
+                # Get section text preview
+                text_children = [c for c in node.children if c.type == 'text']
+                if text_children:
+                    section_preview = ' '.join([c.content[:100] for c in text_children[:2]])
+                else:
+                    section_preview = ""
 
-            if priority == 'low':
-                # Combine all low-priority sections into one
-                low_priority_combined_content.append(node)
-                continue
+                try:
+                    # Pass presentation style so LLM can make context-aware decision
+                    decision = self.content_extractor.determine_section_importance(
+                        section_title=node.content,
+                        section_content=section_preview,
+                        presentation_style=user_prompt
+                    )
 
-            # Assign max slides based on priority
-            if priority == 'high':
-                max_slides_for_section = 3  # High priority: up to 3 slides
-            elif priority == 'medium':
-                max_slides_for_section = 2  # Medium priority: up to 2 slides
-            else:
-                max_slides_for_section = 1
+                    # Skip if LLM says to skip (e.g., Related Work in brief presentations)
+                    if decision == 'skip':
+                        print(f"  ⏭️  Skipping section (LLM decision for {user_prompt or 'standard presentation'}): {node.content}")
+                        continue
 
+                except Exception as e:
+                    print(f"  ⚠️  LLM skip check failed for '{node.content}': {e}")
+                    # Fallback to keyword-based priority
+
+            # All non-skipped sections are included
             sections.append({
                 'node': node,
                 'priority': priority,
-                'max_slides': max_slides_for_section
-            })
-
-        # Add combined low-priority section as 1 slide at the beginning
-        if low_priority_combined_content:
-            combined_node = self._combine_low_priority_sections(low_priority_combined_content)
-            sections.insert(0, {
-                'node': combined_node,
-                'priority': 'low',
-                'max_slides': 1
+                'max_slides': None,  # Will be calculated dynamically
             })
 
         return sections
 
-    def _combine_low_priority_sections(self, nodes: List[TexNode]) -> TexNode:
+    def _calculate_section_budget(self, section_index: int, total_sections: int, remaining_budget: int, priority: str, has_visual_content: bool) -> int:
         """
-        Combine multiple low-priority sections (Intro, Background, Related Work) into one.
-        Uses paragraph combining to avoid broken lines.
+        Dynamically calculate slides allowed for this section based on:
+        1. Remaining budget
+        2. Section priority (high/medium/low)
+        3. Content density (has figures/tables)
+        4. Position in paper
+
+        Returns: max_slides for this section
         """
-        combined_title = "Background \\& Context"  # Escape ampersand for LaTeX
-        combined_node = TexNode(type='section', content=combined_title, level=0)
+        if remaining_budget <= 0 or total_sections <= section_index:
+            return 0
 
-        # Take only first 2-3 key bullets from each section
-        for node in nodes[:3]:  # Max 3 low-priority sections
-            # Get text children and combine into paragraphs
-            text_children = [c for c in node.children if c.type == 'text']
-            if text_children:
-                # Combine text nodes into paragraphs
-                paragraphs = self._combine_text_nodes(text_children)
-                # Take first 2 paragraphs and create text nodes
-                for para in paragraphs[:2]:
-                    para_node = TexNode(type='text', content=para, level=0)
-                    combined_node.children.append(para_node)
+        # Base allocation: distribute budget evenly across remaining sections
+        remaining_sections = total_sections - section_index
+        base_allocation = max(1, remaining_budget // remaining_sections)
 
-        return combined_node
+        # Boost based on priority
+        if priority == 'high':
+            priority_multiplier = 2.0  # High priority sections get more
+        elif priority == 'medium':
+            priority_multiplier = 1.5  # Medium priority sections get moderate boost
+        else:  # low
+            priority_multiplier = 1.0  # Low priority sections get base allocation
+
+        # Boost for content-rich sections (has figures/tables)
+        content_boost = 2 if has_visual_content else 0
+
+        # Calculate final allocation
+        allocated = int(base_allocation * priority_multiplier) + content_boost
+
+        # Apply reasonable caps to prevent any single section from dominating
+        max_per_section = min(8, remaining_budget)  # Never more than 8 slides or remaining budget
+        min_per_section = 1  # Every section gets at least 1 slide
+
+        return max(min_per_section, min(allocated, max_per_section))
 
     def _generate_title_slide(self) -> str:
         """Generate title slide"""

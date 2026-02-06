@@ -307,8 +307,8 @@ class PresentationAgent:
     def _step_generate(self) -> None:
         """Execute Beamer generation step with LLM as primary content brain"""
 
-        # Default max slides (fallback if LLM not available)
-        max_slides = self._extract_max_slides_from_prompt(self.style_prompt)
+        # Extract user's explicit slide count from prompt (if provided)
+        user_slide_count = self._extract_max_slides_from_prompt(self.style_prompt)
         extractor = None
 
         # PRIMARY PATH: Use LLM as the main brain for content generation
@@ -326,21 +326,30 @@ class PresentationAgent:
                     system_prompt=system_prompt,
                 )
 
-                try:
-                    # LLM determines optimal slide count dynamically (5-100)
-                    llm_slide_count = extractor.determine_slide_count(
-                        self.parsed_nodes,
-                        self.style_prompt
-                    )
-                    self.log(f"✓ LLM determined optimal slide count: {llm_slide_count}")
-                    max_slides = llm_slide_count
-                except Exception as e:
-                    self.log(f"⚠️  LLM slide count failed (API limit/error), using default: {max_slides} slides")
-                    self.log(f"   Error: {e}")
+                # CRITICAL FIX: Respect user's explicit slide count
+                # Only let LLM determine slide count if user didn't specify one
+                if user_slide_count != 20 or "slides" in self.style_prompt.lower():
+                    # User explicitly requested a specific slide count - use it directly!
+                    max_slides = user_slide_count
+                    self.log(f"✓ Using user-requested slide count: {max_slides}")
+                else:
+                    # User didn't specify count - let LLM determine optimal
+                    try:
+                        llm_slide_count = extractor.determine_slide_count(
+                            self.parsed_nodes,
+                            self.style_prompt
+                        )
+                        self.log(f"✓ LLM determined optimal slide count: {llm_slide_count}")
+                        max_slides = llm_slide_count
+                    except Exception as e:
+                        self.log(f"⚠️  LLM slide count failed (API limit/error), using default: {user_slide_count} slides")
+                        self.log(f"   Error: {e}")
+                        max_slides = user_slide_count
         else:
             # FALLBACK PATH: No API key or client unavailable
             self.log("⚙️  Fallback mode: No LLM available (missing API key or offline)")
             self.log("   Using rule-based heuristics as backup")
+            max_slides = user_slide_count
 
         # Create generator with LLM as primary content brain
         self.generator = BeamerGenerator(

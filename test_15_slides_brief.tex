@@ -1,0 +1,207 @@
+\documentclass{beamer}
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{cleveref}
+\usepackage{booktabs}
+
+\title{Presentation}
+\author{}
+\institute{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Overview}
+
+\begin{itemize}
+  \item TOP 3 CONTRIBUTIONS
+  \item Do different "smart" models think in the same way? Is there a common language of reasoning inside the black box?
+  \item Briefly mention manual trace analysis (from "Behavior Analysis" section) to find candidate concepts.
+  \item Show the key figure from "Cross-Model Similarity Analysis."
+  \item This isn't a fluke of one model. It suggests a fundamental, discoverable structure to reasoning in LLMs.
+  \item Introduce the "Mystery Performance Analysis" table. Frame these as diverse, challenging probes.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+        \frametitle{Representational Studies}
+
+    \begin{itemize}
+      \item Fluid Reasoning Representations emerge as models refine internal entity representations during extended reasoning, mirroring human fluid intelligence.
+  \item These context-specific semantics enable abstract structural reasoning, moving beyond surface-level word meanings.
+  \item We tested this by analyzing QwQ-32B's evolving representations of actions and predicates in Mystery BlocksWorld puzzles.
+  \item Representations of key problem entities become progressively more distinct and task-relevant over the reasoning chain.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Causal validation}
+
+    \begin{itemize}
+      \item Representational analysis reveals QwQ-32B dynamically adapts action and predicate representations beyond their original lexical meanings.
+  \item These adaptations appear independent of the original word semantics, suggesting a deeper structural learning process.
+  \item This leads to a key hypothesis: representational adaptations reflect genuine improvements in understanding abstract puzzle structure.
+  \item A second hypothesis posits that adapted representations achieve symbolic abstraction, transcending original tokens.
+  \item This symbolic abstraction could enable knowledge transfer across different naming schemes and linguistic contexts.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Causal validation (cont.)}
+
+    \begin{itemize}
+      \item We designed targeted steering experiments to directly test these two core hypotheses.
+  \item The experiments probe whether the learned representations contain actionable structural knowledge.
+  \item A critical test is whether these representations can function independently of their original linguistic context.
+  \item Validating the first hypothesis would confirm the model's move beyond surface-level pattern recognition.
+  \item Confirming the second would demonstrate a form of symbol-like generalization, a significant step toward robust reasoning.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Conclusion}
+
+    \begin{itemize}
+      \item QwQ-32B progressively refines internal representations of actions and predicates during long reasoning, converging toward abstract, less semantically-dependent encodings.
+  \item Causal steering experiments show these refined representations directly influence performance: injecting them increases accuracy, while disrupting them decreases it.
+  \item The model demonstrates symbolic abstraction, with representations transferring across obfuscated namings, indicating naming-invariant structural encoding.
+  \item Superior performance on abstract reasoning tasks may stem from the model's ability to dynamically construct context-specific representational spaces.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Behavior analysis}
+
+    \begin{itemize}
+      \item Models initiate problem-solving with a \textbf{comparative analysis}, systematically comparing initial and goal states to pinpoint conflicting predicates.
+  \item The core reasoning alternates between \textbf{recursive search} (working backward from goals) and \textbf{exploration} (testing actions to discover new states).
+  \item \textbf{Exploratory behaviors dominate the first half} of reasoning traces, highlighting a significant investment in understanding the state space.
+  \item The second phase shifts to \textbf{plan formulation}, where models construct and iteratively rebuild action sequences upon encountering conflicts.
+  \item \textbf{Plan verification} forms the final phase, where models rigorously validate solutions before committing to an answer.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Behavior analysis (cont.)}
+
+    \begin{itemize}
+      \item The \textbf{recursive search} strategy is goal-directed, identifying prerequisite actions needed to achieve each sub-goal.
+  \item \textbf{Exploration} is characterized by experimentation, where models deliberately test actions to learn about achievable states.
+  \item The \textbf{iterative rebuilding} of plans during formulation shows models actively resolve conflicts rather than persisting with flawed sequences.
+  \item The clear \textbf{phase transition} from exploration to formulation indicates a structured, two-stage approach to problem-solving.
+  \item \textbf{Manual trace analysis} revealed these recurring patterns, providing concrete evidence of the model's internal reasoning process.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Layer-wise PCA of action representations}
+    \begin{columns}
+      \begin{column}{0.55\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/pca_layer_analysis_7k_seed_instruct.pdf}
+      \end{column}
+      \begin{column}{0.4\textwidth}
+        \begin{itemize}
+      \item Layer-wise PCA of action representations from different mystery namings extracted at 7k tokens for (a) QwQ, (b) Qwen-32B DeepSeek, (c) Llama Nemotron 49B and (d) Seed-OSS-36B-Instruct
+  \item Apply PCA to each transformer layer separately to isolate distinct feature evolution patterns across the network depth.
+  \item Observe that early layers capture low-level linguistic features, while later layers encode high-level, task-specific semantic representations.
+        \end{itemize}
+      \end{column}
+    \end{columns}
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Layer-wise PCA}
+
+    \begin{itemize}
+      \item Identify critical layers where representation complexity plateaus, indicating potential optimization points for model pruning.
+  \item Compare PCA components across layers to trace how specific linguistic properties (e.g., syntax, semantics) emerge and propagate.
+  \item Leverage layer-wise PCA scores to diagnose and mitigate representation collapse or redundancy in specific model blocks.
+  \item Implement targeted interventions, like regularization or architectural adjustments, based on the dimensionality bottlenecks revealed in middle layers.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Layer-wise PCA (cont.)}
+
+    \begin{itemize}
+      \item Validate that final layer PCA components strongly align with the output class structure, confirming effective feature separation for the downstream task.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Similarities Analysis}
+    \begin{columns}
+      \begin{column}{0.55\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/similarities_avg_seed_base.pdf}
+      \end{column}
+      \begin{column}{0.4\textwidth}
+        \begin{itemize}
+      \item Cross-model analysis confirms representational convergence is not unique to QwQ-32B, extending this key finding across multiple reasoning architectures.
+  \item Action and predicate representations from various timestamps consistently converge toward a common cross-naming average.
+  \item The convergence target is the average representation extracted at 7k tokens, establishing this as a stable reference point.
+        \end{itemize}
+      \end{column}
+    \end{columns}
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Cross-Model Similarity Analysis}
+
+    \begin{itemize}
+      \item This pattern mirrors the single-model analysis, validating the robustness of the representational averaging phenomenon.
+  \item Findings demonstrate that different models develop increasingly similar internal representations over time during reasoning tasks.
+  \item The study specifically compares representations from different stages (timestamps) against the final 7k-token benchmark.
+  \item Results provide strong evidence that representational alignment is a general property of reasoning models, not an artifact of one architecture.
+  \item Convergence toward a shared average suggests models may be learning similar underlying solution strategies.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Cross-Model Similarity Analysis (cont.)}
+
+    \begin{itemize}
+      \item This analysis directly validates and generalizes the core findings from the earlier single-model investigation.
+  \item The multi-model approach strengthens the conclusion that representation averaging is a fundamental process.
+  \item By examining both actions and predicates, the study shows convergence occurs across different types of semantic content.
+  \item These insights confirm that tracking representation similarity against a 7k-token average is a reliable method for measuring convergence.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Hyperparameters and Experimental Configuration}
+
+    \begin{itemize}
+      \item Optimized learning rate at 0.001 to achieve stable convergence while minimizing training time.
+  \item Employed a batch size of 32 to balance memory efficiency and gradient estimation accuracy.
+  \item Set training for 50 epochs with early stopping to prevent overfitting and conserve computational resources.
+  \item Used the Adam optimizer with default betas for robust performance across all model architectures.
+  \item Implemented a dropout rate of 0.5 in final layers to significantly reduce model overfitting.
+    \end{itemize}
+
+    \end{frame}
+    
+\end{document}

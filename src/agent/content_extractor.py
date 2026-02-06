@@ -12,6 +12,7 @@ Uses a chat LLM (Gemini or NVIDIA DeepSeek) to:
 from __future__ import annotations
 
 from typing import List, Optional
+import re
 from pathlib import Path
 
 from .tex_parser import TexNode
@@ -42,6 +43,12 @@ class ContentExtractor:
         # Detect if client supports multimodal (NVIDIA has encode_image method)
         self.supports_multimodal = hasattr(client, 'encode_image')
 
+        # Content sizing limits to avoid oversized requests while still
+        # feeding the full section content (chunked if needed).
+        self.max_section_chars = 6000
+        self.max_chunk_chars = 6000
+        self.max_chunks = 6
+
     def generate_slide_bullets_with_image(
         self,
         section_content: str,
@@ -70,10 +77,11 @@ class ContentExtractor:
             return self.generate_slide_bullets(section_content, section_title, max_bullets)
 
         # MULTIMODAL: Include image in the analysis
+        prepared_content = self._prepare_section_content(section_content, section_title)
         prompt_text = f"""Section: {section_title}
 
 Text content:
-{section_content[:1500]}
+    {prepared_content}
 
 Task: Analyze the provided image/figure and create {max_bullets} concise, informative bullet points for a presentation slide.
 
@@ -124,10 +132,11 @@ Output format: One bullet per line, starting with "-"
         Returns:
             List of intelligently summarized bullet points
         """
+        prepared_content = self._prepare_section_content(section_content, section_title)
         prompt = f"""Section: {section_title}
 
 Content:
-{section_content[:2000]}
+    {prepared_content}
 
 Task: Create {max_bullets} concise, informative bullet points for a presentation slide.
 
@@ -161,6 +170,94 @@ Output format: One bullet per line, starting with "-"
         ]
 
         return bullets[:max_bullets]
+
+    def _prepare_section_content(self, section_content: str, section_title: str) -> str:
+        """
+        Ensure the LLM sees the FULL section content.
+        If content is too long, chunk and summarize to preserve coverage without truncation.
+        """
+        clean_content = self._join_broken_lines(section_content)
+
+        # If content is short enough, pass it through directly.
+        if len(clean_content) <= self.max_section_chars:
+            return clean_content
+
+        # Otherwise, chunk and summarize each chunk to retain coverage.
+        chunks = self._chunk_text(clean_content, max_chars=self.max_chunk_chars)
+        chunks = chunks[:self.max_chunks]
+
+        chunk_summaries: list[str] = []
+        for i, chunk in enumerate(chunks, start=1):
+            prompt = f"""Section: {section_title}
+
+Chunk {i}/{len(chunks)}:
+{chunk}
+
+Task: Summarize this chunk into 4-6 precise bullets (1 sentence each).
+Rules:
+1. Keep factual claims grounded in the chunk
+2. Preserve numbers, results, and concrete findings
+3. Avoid repetition across bullets
+
+Output format: One bullet per line, starting with "-"
+"""
+
+            messages = [
+                {"role": "system", "content": "You are an expert at condensing research text into crisp bullets."},
+                {"role": "user", "content": prompt},
+            ]
+
+            response = self.client.chat(
+                model=self.model,
+                messages=messages,
+                max_tokens=500,
+                temperature=0.3,
+            )
+
+            bullets = [
+                line.strip().lstrip('-').lstrip('•').strip()
+                for line in response.split('\n')
+                if line.strip() and (line.strip().startswith('-') or line.strip().startswith('•'))
+            ]
+            if bullets:
+                chunk_summaries.append(f"Chunk {i} summary:")
+                chunk_summaries.extend([f"- {b}" for b in bullets])
+
+        # If chunk summaries failed for any reason, fall back to a trimmed slice.
+        if not chunk_summaries:
+            return clean_content[: self.max_section_chars]
+
+        # Provide the chunk summaries as the effective content for final bullet synthesis.
+        return "\n".join(chunk_summaries)
+
+    def _chunk_text(self, text: str, max_chars: int) -> List[str]:
+        """Split text into chunks on paragraph boundaries up to max_chars."""
+        paragraphs = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
+        chunks: list[str] = []
+        current: list[str] = []
+        current_len = 0
+
+        for para in paragraphs:
+            if current_len + len(para) + 2 > max_chars and current:
+                chunks.append("\n\n".join(current))
+                current = [para]
+                current_len = len(para)
+            else:
+                current.append(para)
+                current_len += len(para) + 2
+
+        if current:
+            chunks.append("\n\n".join(current))
+
+        return chunks
+
+    def _join_broken_lines(self, text: str) -> str:
+        """Join mid-sentence line breaks into a single paragraph."""
+        # Replace single newlines between words with spaces, keep paragraph breaks.
+        text = re.sub(r"(?<!\n)\n(?!\n)", " ", text)
+        # Normalize repeated spaces
+        text = re.sub(r"\s+", " ", text)
+        return text.strip()
 
     def determine_slide_count(self, nodes: List[TexNode], user_prompt: str = "") -> int:
         """
@@ -208,6 +305,63 @@ Provide ONLY a number between 5 and 100. No explanation.
         # Fallback: estimate based on content
         section_count = sum(1 for n in nodes if n.type == 'section')
         return max(10, min(50, section_count * 2))
+
+    def determine_section_importance(self, section_title: str, section_content: str, presentation_style: str = "") -> str:
+        """
+        Use LLM to determine if a section should be included in presentation.
+
+        Args:
+            section_title: Title of the section
+            section_content: Preview of section content (first 300 chars)
+            presentation_style: User's presentation style/length request (e.g., "brief", "60 slides comprehensive")
+
+        Returns:
+            'include' = Must be included (critical sections or supporting sections for long presentations)
+            'skip' = Should be skipped (boilerplate, or nice-to-have sections for short presentations)
+        """
+        # Determine if this is a short/brief or comprehensive presentation
+        style_context = f"Presentation style: {presentation_style}" if presentation_style else "Presentation style: Standard research talk"
+
+        prompt = f"""{style_context}
+
+Section title: {section_title}
+
+Section preview:
+{section_content[:300]}
+
+Task: Decide if this section should be INCLUDED or SKIPPED for this presentation.
+
+Guidelines:
+- ALWAYS INCLUDE: Methodology, experiments, results, main contributions, novel algorithms, key findings
+- FOR SHORT/BRIEF PRESENTATIONS (15-25 slides): SKIP related work, background, limitations, acknowledgments, examples, appendices
+- FOR COMPREHENSIVE PRESENTATIONS (50-60 slides): INCLUDE background, related work, analysis, discussion. SKIP only true boilerplate (acknowledgments, appendices, prompt examples)
+- ALWAYS SKIP: Acknowledgments, references, appendices, prompt examples, naming variants
+
+Consider the presentation length when deciding. Short talks need focus on core contributions only.
+
+Output ONLY one word: include OR skip
+"""
+
+        messages = [
+            {"role": "system", "content": "You are an expert at curating content for research presentations based on time constraints and audience needs."},
+            {"role": "user", "content": prompt}
+        ]
+
+        try:
+            response = self.client.chat(
+                model=self.model,
+                messages=messages,
+                max_tokens=10,
+                temperature=0.2
+            )
+
+            classification = response.strip().lower()
+            if classification in ['include', 'skip']:
+                return classification
+        except Exception as e:
+            print(f"⚠️  Section importance classification failed: {e}")
+
+        return 'include'  # Default fallback - include if uncertain
 
     def summarize(self, nodes: List[TexNode], user_prompt: str = "", max_tokens: int = 900) -> str:
         """
