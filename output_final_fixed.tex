@@ -1,0 +1,255 @@
+\documentclass{beamer}
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{cleveref}
+\usepackage{booktabs}
+
+\title{Fluid Reasoning Representations In Reasoning Models}
+\author{Dmitrii Kharlapenko et al.}
+\institute{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\begin{frame}
+        \frametitle{Background \& Context}
+
+    \begin{itemize}
+      \item A fundamental question in understanding reasoning language models is whether these models merely pattern-match against memorized associations, or whether they can dynamically construct new representations during problem-solving.
+  \item This distinction is critical: true reasoning requires adapting internal representations to fit novel problem structures, not just retrieving precomputed solutions.
+  \item Several reasoning benchmarks have been introduced to assess whether language models exhibit genuine reasoning capabilities or rely primarily on memorized patterns.
+  \item For instance, ARC-AGI series of benchmarks test fluid intelligence through novel visual reasoning tasks designed to minimize reliance on prior knowledge and require genuine abstraction and problem-solving capabilities.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Representational Studies}
+
+    \begin{itemize}
+      \item Our main hypothesis is that reasoning models progressively refine their internal representations of problem entities during extended reasoning.
+  \item We call such refined representations Fluid Reasoning Representations, named after fluid reasoning in humans.
+  \item This process develops context-specific semantics that enable abstract structural reasoning independent of surface-level word meanings.
+  \item We test this hypothesis by analyzing how QwQ-32B's representations of actions and predicates evolve while solving Mystery BlocksWorld puzzles.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Causal validation}
+
+    \begin{itemize}
+      \item The representational analysis in reveals that QwQ-32B dynamically adapts representations of actions and predicates beyond their original lexical meanings, with adaptations appearing independent of original word semantics.
+  \item This suggests two testable hypotheses: \textbf{(1)} representational adaptations reflect genuine improvements in understanding abstract puzzle structure, and \textbf{(2)} adapted representations achieve symbolic abstraction that transcends original tokens, enabling transfer across naming schemes.
+  \item We design steering experiments to test whether learned representations contain actionable structural knowledge and can function independently of their linguistic context.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Limitations}
+
+    \begin{itemize}
+      \item We focus on a single reasoning model (QwQ-32B) and a single domain (BlocksWorld).
+  \item While this does not cover the full diversity of reasoning tasks, BlocksWorld offers a particularly clean testbed: it has a small, well-defined set of actions and predicates, clear structural rules, and easily controlled obfuscations.
+  \item This makes it possible to isolate representational adaptation in a way that would be difficult in domains with unconstrained concept spaces, such as open-ended mathematics or natural language reasoning.
+  \item We expect these findings to generalize to other structured planning setups with fixed action spaces (e.g., Towers of Hanoi), though verifying this and testing whether the patterns extend to less constrained domains remains future work.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Limitations (cont.)}
+
+    \begin{itemize}
+      \item Our steering and patching intervention methods are deliberately simple, chosen to remain tractable on reasoning traces that often span 15–20k tokens.
+  \item More targeted or fine-grained causal tools could sharpen the picture, but even our coarse interventions reveal measurable effects.
+  \item Similarly, computational limits prevented extensive hyperparameter sweeps or decoding strategy comparisons, yet the observed representational trends were consistent across multiple obfuscations.
+  \item We also note that shuffled-control experiments  reveal unexpected gains around later layers (notably layer~30), suggesting that some aspects of late-layer representational dynamics remain to be explained in future work.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Conclusion}
+
+    \begin{itemize}
+      \item This work analyzed how a reasoning-oriented language model (QwQ-32B) processes abstract structural information during extended reasoning. We presented three main observations.
+  \item First, the model progressively refines internal representations of actions and predicates over long reasoning traces, converging toward abstract encodings that are less dependent on surface-level semantics.
+  \item Second, steering experiments suggest that these representational adaptations are not merely descriptive but can causally influence problem-solving performance: injecting refined representations tends to increase accuracy, while disrupting them tends to decrease it.
+  \item Third, we observed evidence of symbolic abstraction, where representations transfer across different obfuscated namings, suggesting a degree of naming-invariant structural encoding.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Conclusion (cont.)}
+
+    \begin{itemize}
+      \item Taken together, these results suggest that the superior performance of reasoning models on abstract reasoning tasks may stem in part from their ability to dynamically construct context-specific representational spaces during extended reasoning.
+  \item While preliminary, our findings highlight representational refinement as a promising direction for understanding the internal mechanisms of reasoning models and contribute to a growing body of work on the interpretability of long-form reasoning traces.
+  \item We thank Open Philanthropy for their financial support of this research. We are grateful to Nebius for providing the computational resources that made this work possible.
+  \item We also thank Matthew Wearden, Roderick Wu, and Vilém Zouhar for valuable discussions and feedback on earlier versions of this manuscript.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Behavior analysis}
+
+    \begin{itemize}
+      \item Through manual investigation of DeepSeek and QwQ reasoning traces, we identified recurring behavioral patterns in Mystery BlocksWorld solving.
+  \item Models begin with \textbf{comparative analysis}, examining initial and goal states to identify conflicting predicates.
+  \item They then alternate between \textbf{recursive search} (working backwards from goals to identify required actions) and \textbf{exploration} (experimenting with actions to discover achievable states).
+  \item These exploratory behaviors occupy the first half of reasoning traces.
+  \item The second phase involves \textbf{plan formulation}, where models construct action sequences and verify validity, iteratively rebuilding when conflicts arise.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Behavior analysis (cont.)}
+
+    \begin{itemize}
+      \item The final phase consists of \textbf{plan verification}, where models validate solutions before committing to answers.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Layer-wise PCA of action representations}
+    \begin{columns}
+      \begin{column}{0.55\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/pca_layer_analysis_7k_seed_instruct.pdf}
+      \end{column}
+      \begin{column}{0.4\textwidth}
+        \begin{itemize}
+      \item Layer-wise PCA of action representations from different mystery namings extracted at 7k tokens for (a) QwQ, (b) Qwen-32B DeepSeek, (c) Llama Nemotron 49B and (d) Seed-OSS-36B-Instruct
+        \end{itemize}
+      \end{column}
+    \end{columns}
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Similarities Analysis}
+    \begin{columns}
+      \begin{column}{0.55\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/similarities_avg_seed_base.pdf}
+      \end{column}
+      \begin{column}{0.4\textwidth}
+        \begin{itemize}
+      \item To validate that representational convergence is not unique to QwQ-32B, we analyzed action and predicate representations across multiple reasoning models. shows how centered action and predicate representations from different timestamps converge toward cross-naming average representations extracted at 7k tokens, analogous to the analysis in.
+        \end{itemize}
+      \end{column}
+    \end{columns}
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Hyperparameters and Experimental Configuration}
+
+    \begin{itemize}
+      \item This section provides a comprehensive overview of all hyperparameters and experimental configurations used throughout our analysis.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Negative steering}
+
+    \begin{itemize}
+      \item To further validate the Structural Understanding Hypothesis, we conduct an ablation experiment testing whether disrupting representational adaptations decreases accuracy.
+  \item Since steering interventions can easily degrade performance through general disruption rather than targeted ablation, we use a comparative approach.
+  \item We perform interventions across token window [2000, 4000] on multiple layers, subtracting centered naming representations extracted from the 4k timestamp.
+  \item We use shuffled representations as control, as random vectors provided insufficient baseline strength.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Negative steering (cont.)}
+
+    \begin{itemize}
+      \item We start steering on layer 10 and perform two runs: 1) End layer 20 gives 2.3\ 2) End layer 30 gives 2.9\
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Mystery Performance Analysis}
+
+    \scriptsize
+  \begin{table}
+    \centering
+    \begin{tabular}{lc c c c}
+      \toprule
+      \textbf{Variant} & \textbf{Acc} & \textbf{Gain 1} & \textbf{Gain 2} & \textbf{Description} \\
+      \midrule
+      Mystery 1 & 0.33 & +0.10 & +0.11 & Mixed violent/consumption metaphors \\
+      Mystery 2 & 0.47 & +0.05 & +0.05 & Abstract mystical/spiritual terms \\
+      Mystery 3 & 0.65 & --- & --- & Random strings \\
+      Mystery 4 & 0.25 & +0.03 & +0.03 & Mixed physical actions \\
+      Mystery 5 & 0.24 & -0.01 & +0.01 & Communication/navigation metaphors \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Mystery Performance Analysis (cont.)}
+
+    \scriptsize
+  \begin{table}
+    \centering
+    \begin{tabular}{lc c c c}
+      \toprule
+      \textbf{Variant} & \textbf{Acc} & \textbf{Gain 1} & \textbf{Gain 2} & \textbf{Description} \\
+      \midrule
+      Mystery 6 & 0.26 & +0.05 & +0.07 & Technical/elemental operations \\
+      Mystery 7 & 0.19 & +0.02 & +0.03 & Nature/growth cycle \\
+      Mystery 8 & 0.11 & +0.02 & +0.04 & Agriculture/crafting metaphors \\
+      Mystery 9 & 0.25 & +0.02 & +0.01 & Construction/destruction cycle \\
+      Mystery 10 & 0.05 & +0.09 & +0.05 & Coherent gardening domain \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Mystery Performance Analysis (cont.)}
+
+    \scriptsize
+  \begin{table}
+    \centering
+    \begin{tabular}{lc c c c}
+      \toprule
+      \textbf{Variant} & \textbf{Acc} & \textbf{Gain 1} & \textbf{Gain 2} & \textbf{Description} \\
+      \midrule
+      Mystery 11 & 0.14 & +0.00 & +0.02 & Legal proceedings domain \\
+      Mystery 12 & 0.16 & +0.06 & +0.02 & Communication technology \\
+      Mystery 13 & 0.48 & +0.06 & +0.06 & Dark mystical operations \\
+      Mystery 14 & 0.24 & +0.02 & +0.02 & Abstract philosophical inquiry \\
+      Mystery 15 & 0.34 & +0.04 & +0.04 & Mystical summoning/manipulation \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+
+
+    \end{frame}
+    
+\end{document}

@@ -1,0 +1,29 @@
+{
+   "sources" : [
+      {
+         "usage" : "toplevel",
+         "filename" : "arxiv_version.tex"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "_iclr2025_conference.bib"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "iclr2025_conference.bst"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "iclr2026_conference.bib"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "iclr2026_conference.bst"
+      }
+   ],
+   "spec_version" : 1,
+   "texlive_version" : "2025",
+   "process" : {
+      "compiler" : "pdflatex"
+   }
+}

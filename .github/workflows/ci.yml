@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install uv
+      run: |
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+    - name: Install dependencies
+      run: |
+        uv sync
+
+    - name: Check imports
+      run: |
+        uv run python -c "from src.agent.presentation_agent import PresentationAgent; print('Import successful')"
+
+    - name: Validate package structure
+      run: |
+        uv run python -c "import src.agent.cli; import src.agent.beamer_generator; import src.agent.tex_parser; print('All modules import successfully')"
+
+    - name: Check CLI help
+      run: |
+        uv run agent --help
+
+    - name: Run tests
+      run: |
+        uv run pip install pytest
+        uv run pytest tests/ -v --tb=short
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install uv
+      run: |
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+    - name: Check Python syntax
+      run: |
+        uv run python -m py_compile src/agent/*.py
+

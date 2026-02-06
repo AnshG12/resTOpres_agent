@@ -1,0 +1,41 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+.uv/
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Generated artifacts
+output*.tex
+report.json
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.pdf
+*.toc
+*.nav
+*.snm
+*.vrb
+
+# Temporary debugging scripts (but NOT tests/ directory)
+test_*.py
+!tests/
+
+# Keep example outputs as reference
+!output_final_fixed.tex
+
