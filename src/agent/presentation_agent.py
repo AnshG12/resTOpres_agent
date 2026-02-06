@@ -22,6 +22,7 @@ from .content_extractor import ContentExtractor
 from .config import load_settings
 from .hf_client import HuggingFaceClient
 from .gemini_client import GeminiClient
+from .nvidia_client import NvidiaClient
 
 
 class PresentationAgent:
@@ -67,7 +68,11 @@ class PresentationAgent:
         self.hf_system_prompt: Optional[str] = None
         self.gemini_client: Optional[GeminiClient] = None
         self.gemini_model: Optional[str] = None
-        
+        self.nvidia_client: Optional[NvidiaClient] = None
+        self.nvidia_model: Optional[str] = None
+        self.llm_client = None  # Unified client reference
+        self.llm_model: Optional[str] = None  # Unified model reference
+
         self.pipeline_log = []
     
     def load_tex_file(self, filepath: str) -> None:
@@ -200,9 +205,9 @@ class PresentationAgent:
                 self.log(f"      ↳ {child.type}: {child.content[:40]}")
 
     def _ensure_llm_client(self) -> bool:
-        """Ensure LLM client is available; return True if ready."""
+        """Ensure LLM client is available; return True if ready. Supports NVIDIA (primary), Gemini, HF."""
         # If already set
-        if self.gemini_client and self.gemini_model:
+        if self.llm_client and self.llm_model:
             return True
 
         try:
@@ -211,15 +216,37 @@ class PresentationAgent:
             self.log(f"LLM disabled (missing config): {exc}")
             return False
 
-        if settings.llm_provider != "gemini":
-            self.log("Unsupported LLM provider; only Gemini is enabled.")
+        # PRIMARY: NVIDIA DeepSeek-V3.2
+        if settings.llm_provider == "nvidia":
+            self.nvidia_client = NvidiaClient(
+                settings.nvidia_api_key,  # type: ignore[arg-type]
+                base_url=settings.nvidia_base_url,
+            )
+            self.nvidia_model = settings.nvidia_model
+            self.llm_client = self.nvidia_client
+            self.llm_model = self.nvidia_model
+            self.hf_system_prompt = settings.system_prompt
+            self.log(f"🧠 LLM enabled with NVIDIA model: {self.nvidia_model}")
+            return True
+
+        # FALLBACK 1: Gemini
+        elif settings.llm_provider == "gemini":
+            self.gemini_client = GeminiClient(settings.gemini_api_key)  # type: ignore[arg-type]
+            self.gemini_model = settings.gemini_model
+            self.llm_client = self.gemini_client
+            self.llm_model = self.gemini_model
+            self.hf_system_prompt = settings.system_prompt
+            self.log(f"LLM enabled with Gemini model: {self.gemini_model}")
+            return True
+
+        # FALLBACK 2: HuggingFace
+        elif settings.llm_provider == "hf":
+            self.log("HuggingFace provider not yet supported in this version")
             return False
 
-        self.gemini_client = GeminiClient(settings.gemini_api_key)  # type: ignore[arg-type]
-        self.gemini_model = settings.gemini_model
-        self.hf_system_prompt = settings.system_prompt
-        self.log(f"LLM enabled with Gemini model: {self.gemini_model}")
-        return True
+        else:
+            self.log(f"Unsupported LLM provider: {settings.llm_provider}")
+            return False
 
     def _step_understand(self) -> None:
         """Use LLM to build a presentation outline/summary."""
@@ -228,12 +255,12 @@ class PresentationAgent:
             return
 
         if not self._ensure_llm_client():
-            self.log("Skipping LLM understanding (HF client unavailable).")
+            self.log("Skipping LLM understanding (LLM client unavailable).")
             return
 
-        # Choose client/model
-        client = self.gemini_client
-        model = self.gemini_model
+        # Use unified client/model references
+        client = self.llm_client
+        model = self.llm_model
         system_prompt = self.hf_system_prompt
 
         if not client or not model:
@@ -286,8 +313,8 @@ class PresentationAgent:
 
         # PRIMARY PATH: Use LLM as the main brain for content generation
         if self._ensure_llm_client():
-            client = self.gemini_client
-            model = self.gemini_model
+            client = self.llm_client
+            model = self.llm_model
             system_prompt = self.hf_system_prompt
 
             if client and model:

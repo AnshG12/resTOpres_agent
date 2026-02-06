@@ -337,12 +337,34 @@ class BeamerGenerator:
                 max_bullets_for_llm = 12
 
             try:
-                # Generate smart bullets using LLM (primary method)
-                text_bullets = self.content_extractor.generate_slide_bullets(
-                    section_content=section_text,
-                    section_title=node.content,
-                    max_bullets=max_bullets_for_llm
-                )
+                # MULTIMODAL: If figure exists, use image-aware generation
+                if figures and hasattr(self.content_extractor, 'supports_multimodal') and self.content_extractor.supports_multimodal:
+                    fig = figures[0]
+                    image_path = fig.meta.get('image_path', '') if fig.meta else ''
+
+                    if image_path and self.figure_root:
+                        # Resolve image path relative to paper root
+                        full_image_path = self._resolve_image_path(image_path)
+                        text_bullets = self.content_extractor.generate_slide_bullets_with_image(
+                            section_content=section_text,
+                            section_title=node.content,
+                            image_path=full_image_path,
+                            max_bullets=max_bullets_for_llm
+                        )
+                    else:
+                        # No valid image path, use text-only
+                        text_bullets = self.content_extractor.generate_slide_bullets(
+                            section_content=section_text,
+                            section_title=node.content,
+                            max_bullets=max_bullets_for_llm
+                        )
+                else:
+                    # TEXT-ONLY: No figure or multimodal not supported
+                    text_bullets = self.content_extractor.generate_slide_bullets(
+                        section_content=section_text,
+                        section_title=node.content,
+                        max_bullets=max_bullets_for_llm
+                    )
             except Exception as e:
                 # FALLBACK: Use rule-based if LLM fails (API limit, timeout, etc.)
                 print(f"⚠️  LLM generation failed for '{node.content}', using rule fallback: {e}")

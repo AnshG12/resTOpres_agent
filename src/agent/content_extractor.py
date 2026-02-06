@@ -1,16 +1,18 @@
 """
-LLM Content Extractor
-=====================
+LLM Content Extractor with Multimodal Support
+==============================================
 
-Uses a chat LLM (via Hugging Face Inference API) to:
+Uses a chat LLM (Gemini or NVIDIA DeepSeek) to:
 - Read structured TeX nodes
+- Analyze figures, tables, and equations (MULTIMODAL)
 - Build an outline understanding
 - Produce a presentation plan aligned with a user prompt (short vs. long)
 """
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, Optional
+from pathlib import Path
 
 from .tex_parser import TexNode
 
@@ -36,6 +38,79 @@ class ContentExtractor:
         self.client = client
         self.model = model
         self.system_prompt = system_prompt or DEFAULT_SYSTEM_PROMPT
+
+        # Detect if client supports multimodal (NVIDIA has encode_image method)
+        self.supports_multimodal = hasattr(client, 'encode_image')
+
+    def generate_slide_bullets_with_image(
+        self,
+        section_content: str,
+        section_title: str,
+        image_path: Optional[str | Path] = None,
+        max_bullets: int = 5
+    ) -> List[str]:
+        """
+        Use LLM to generate intelligent bullets with MULTIMODAL image analysis.
+
+        Args:
+            section_content: Raw text from the section
+            section_title: Title of the section
+            image_path: Optional path to figure/chart to analyze
+            max_bullets: Maximum number of bullets to generate
+
+        Returns:
+            List of intelligently summarized bullet points (with image insights)
+        """
+        # If no image or client doesn't support multimodal, fall back to text-only
+        if not image_path or not self.supports_multimodal:
+            return self.generate_slide_bullets(section_content, section_title, max_bullets)
+
+        image_path = Path(image_path)
+        if not image_path.exists():
+            return self.generate_slide_bullets(section_content, section_title, max_bullets)
+
+        # MULTIMODAL: Include image in the analysis
+        prompt_text = f"""Section: {section_title}
+
+Text content:
+{section_content[:1500]}
+
+Task: Analyze the provided image/figure and create {max_bullets} concise, informative bullet points for a presentation slide.
+
+Rules:
+1. INTEGRATE insights from BOTH the text and the image
+2. Each bullet should be 1-2 sentences maximum
+3. Focus on KEY INSIGHTS from the figure (trends, comparisons, key results)
+4. Make bullets ACTIONABLE and SPECIFIC
+5. Prioritize numbers, results, and concrete findings shown in the image
+
+Output format: One bullet per line, starting with "-"
+"""
+
+        try:
+            # Use multimodal chat (NVIDIA DeepSeek supports this)
+            response = self.client.chat_with_image(
+                model=self.model,
+                text=prompt_text,
+                image_path=image_path,
+                system_prompt="You are an expert at analyzing research figures and distilling insights into presentation-ready bullet points.",
+                max_tokens=500,
+                temperature=0.3
+            )
+
+            # Parse response into list
+            bullets = [
+                line.strip().lstrip('-').lstrip('•').strip()
+                for line in response.split('\n')
+                if line.strip() and (line.strip().startswith('-') or line.strip().startswith('•'))
+            ]
+
+            return bullets[:max_bullets] if bullets else self.generate_slide_bullets(section_content, section_title, max_bullets)
+
+        except Exception as e:
+            print(f"⚠️  Multimodal generation failed: {e}")
+            # Fallback to text-only
+            return self.generate_slide_bullets(section_content, section_title, max_bullets)
 
     def generate_slide_bullets(self, section_content: str, section_title: str, max_bullets: int = 5) -> List[str]:
         """
