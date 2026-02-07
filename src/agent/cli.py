@@ -61,9 +61,10 @@ def make_presentation(
     title: str = typer.Option("", help="Presentation title (optional)"),
     author: str = typer.Option("", help="Author(s) (optional)"),
     institute: str = typer.Option("", help="Institute (optional)"),
-    output_tex: str = typer.Option("output.tex", help="Path to write Beamer .tex"),
+    output_tex: str = typer.Option(None, help="Path to write Beamer .tex (default: {folder}/presentation.tex)"),
     report_path: str = typer.Option("report.json", help="Path to write processing report"),
     style_prompt_opt: str = typer.Option("", help="Style prompt (if empty, you will be prompted)"),
+    tex_only: bool = typer.Option(False, "--tex-only", help="Skip PDF compilation (only generate .tex file)"),
     yes: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation prompt"),
 ) -> None:
     """Build a Beamer presentation after user prompt + confirmation."""
@@ -120,13 +121,30 @@ def make_presentation(
 
     # Save outputs
     try:
-        agent.save_presentation(output_tex)
+        tex_path = agent.save_presentation(output_tex)
         agent.save_report(report_path)
+
+        # Compile to PDF by default (unless --tex-only flag is used)
+        pdf_path = None
+        if not tex_only:
+            console.print("[cyan]Compiling to PDF...[/cyan]")
+            if agent.compile_to_pdf(tex_path):
+                pdf_path = tex_path.with_suffix('.pdf')
+                console.print(f"[green]✓ PDF created successfully![/green]")
+            else:
+                console.print("[yellow]⚠️  PDF compilation failed. .tex file is still available for manual compilation.[/yellow]")
+
     except Exception as exc:  # noqa: BLE001
         console.print(f"[red]Saving failed:[/red] {exc}")
         raise typer.Exit(code=1)
 
-    console.print(f"[green]Done.[/green] Slides: {output_tex} | Report: {report_path}")
+    # Display final output locations
+    console.print(f"\n[bold green]✓ Done![/bold green]")
+    console.print(f"  📄 Slides (.tex): {tex_path}")
+    if pdf_path and pdf_path.exists():
+        console.print(f"  📕 PDF: {pdf_path}")
+        console.print(f"\n[bold cyan]Open PDF:[/bold cyan] open {pdf_path}")
+    console.print(f"  📊 Report: {report_path}")
 
 
 if __name__ == "__main__":

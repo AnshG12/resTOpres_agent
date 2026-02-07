@@ -1,0 +1,2092 @@
+\documentclass[10pt, letterpaper, logo, onecolumn, copyright]{main}
+
+\usepackage[authoryear, sort&compress, round]{natbib}
+
+\usepackage[inkscapeformat=png]{svg}
+
+
+\usepackage[most, breakable, skins]{tcolorbox}
+
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs} % for professional tables
+\PassOptionsToPackage{table,dvipsnames}{xcolor}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{listings}
+
+
+\usepackage{xurl}      % 比 url 更智能，强烈推荐
+\usepackage{hyperref}  % 如果模板允许
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{textcomp} % 增强 \textcircled 支持
+
+\tcbuselibrary{skins}
+\usepackage{lipsum}
+\usepackage{tabularx}
+\usepackage{afterpage}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{bm}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{float}
+\usepackage{listings, listings-rust}
+\usepackage{fontawesome5}
+\usepackage{hyperref}
+\usepackage{amssymb,graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{cleveref}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{adjustbox}
+\usepackage{nicematrix}
+\usepackage{CJKutf8}
+\usepackage{ragged2e}
+\usepackage{colortbl}
+\usepackage{enumitem}
+% \usepackage[ruled,linesnumbered]{algorithm2e}
+\usepackage{pifont}
+\usepackage[htt]{hyphenat}
+\usepackage{amsmath}
+\usepackage{amsthm}  
+\usepackage{mathrsfs} 
+\usepackage{circledsteps}
+\usepackage{diagbox}
+\usepackage{bookmark}
+
+\makeatletter
+\renewcommand{\@maketitle}{%
+  \newpage
+  \null
+  \vskip 2em%
+  \begin{center}%
+  \let \footnote \thanks
+    {\Large\bfseries \@title \par}%  % 使用 \Large 代替默认的 \LARGE 或 \huge
+    \vskip 1.5em%
+    {\normalsize
+      \lineskip .5em%
+      \begin{tabular}[t]{c}%
+        \@author
+      \end{tabular}\par}%
+    \vskip 1em%
+    {\normalsize \@date}%
+  \end{center}%
+  \par
+  \vskip 1.5em}
+\makeatother
+
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+
+\usepackage{wrapfig}
+\lstset{breaklines=true}
+\usepackage{xspace}
+\usepackage{tikz}
+\usepackage[normalem]{ulem}
+
+\usepackage{wrapfig}
+
+
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.18}
+
+
+\lstset{
+basicstyle=\footnotesize\ttfamily,
+columns=flexible,
+frame=single,
+xleftmargin=1em,
+breaklines=true,
+breakindent=0em
+}
+
+\definecolor{medgray55}{gray}{0.55}
+\definecolor{medgray}{gray}{0.7}
+\definecolor{litegray}{gray}{0.9}
+\definecolor{gblue}{RGB}{210, 227, 252}
+\definecolor{gred}{RGB}{250, 210, 207}
+\definecolor{gyellow}{RGB}{254, 239, 195}
+\definecolor{ggreen}{RGB}{206, 234, 214}
+\definecolor{gorange}{RGB}{254, 223, 200}
+
+\definecolor{gblue9}{RGB}{23, 78, 166}
+\definecolor{gred9}{RGB}{165, 14, 14}
+\definecolor{gyellow9}{RGB}{227, 116, 0}
+\definecolor{ggreen9}{RGB}{13, 101, 45}
+\definecolor{gorange9}{RGB}{176, 96, 0}
+
+\definecolor{myblue}{rgb}{0,0,1}
+\definecolor{myred}{rgb}{1,0,0}
+\definecolor{mylightgray}{gray}{0.95}
+\definecolor{myCite}{HTML}{1C4587}
+
+\definecolor{highlightblue}{HTML}{185ABC}
+\definecolor{cellHighlight}{HTML}{dbefff}
+\newcommand{\HL}{\cellcolor{cellHighlight}}
+
+\newcommand{\textHL}[1]{{\color{gblue9}\detokenize{#1}}}
+\newcommand{\mmwebpromax}{\texttt{MegaMath-Web-Pro-Max}}
+
+\usepackage{minitoc}
+\renewcommand{\partname}{}
+\renewcommand{\thepart}{}
+\noptcrule
+
+
+
+\newtcolorbox{appendixcase}[1][]{
+  breakable,
+  colback=gray!10,        % 背景色
+  colframe=gray!60,       % 边框颜色
+  boxrule=0.6pt,
+  arc=3pt,
+  left=8pt,
+  right=8pt,
+  top=6pt,
+  bottom=6pt,
+  fonttitle=\bfseries,
+  title=#1
+}
+
+
+\makeatletter
+
+\makeatother
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering}m{#1}}
+
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\definecolor{ao}{rgb}{0.0, 0.0, 1.0}
+
+\newcommand{\sota}[1]{\textcolor{ao}{$\textbf{#1}$}}
+\newcommand{\red}[1]{\textcolor{red}{{#1}}}
+\newcommand{\green}[1]{\textcolor{green}{{#1}}}
+\newcommand\rowincludegraphics[2][]{\raisebox{-0.55\height}{\includegraphics[#1]{#2}}}
+\newcommand\vcent[1]{\vcenter{\hbox{#1}}}
+\newcommand{\vvr}[1]{\textcolor{red}{[Vinay TODO: #1]}}
+\newcommand{\ov}[1]{\textcolor{red}{[OV: #1]}}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand\loudspeaker[1][3]{\ensuremath{\vcent{\rule{.6ex}{.6ex}}\kern-.5ex
+  \vcent{\scalebox{.6}[1]{\rotatebox[origin=center]{90}{$\blacktriangle$}}}
+  \ifnum#1>0\relax\kern.05ex\vcent{\scalebox{.4}{\ttfamily)}}
+  \ifnum#1>1\relax\kern-.4ex\vcent{\scalebox{.56}{\ttfamily)}}
+  \ifnum#1>2\relax\kern-.55ex\vcent{\scalebox{.7}{\ttfamily)}}
+  \fi\fi\fi}
+}
+
+\newcommand{\para}[1]{
+  \par\noindent\textbf{#1}
+}
+\newcommand{\HLight}[1]{{\color{gblue9}#1}}
+\newcommand{\citeg}[1]{\cite[][\emph{inter alia}]{#1}}
+
+
+\makeatletter
+\renewcommand\subparagraph{
+ \@startsection {subparagraph}{5}{\z@ }{3.25ex \@plus 1ex
+ \@minus .2ex}{-1em}{\normalfont \normalsize \bfseries }}
+\makeatother
+
+\newcommand{\octo}{OctoThinker}
+
+
+\bibliographystyle{plainnat}
+\let\cite\citep
+\hypersetup{
+  citecolor = myCite,  
+  linkcolor = myCite,   
+  urlcolor  = myCite
+}
+
+\definecolor{resultgreen}{HTML}{84F3EB}
+\definecolor{resultred}{HTML}{E7A7B0}
+
+% Δ 行用的浅灰色
+\definecolor{deltagray}{gray}{0.45}
+
+% Δ 数字宏
+\newcommand{\deltaimprove}[1]{{\scriptsize\textcolor{deltagray}{#1}}}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+
+
+
+\title{Steering LLMs via Scalable Interactive Oversight}
+\author{
+    Enyu Zhou$^1$$^\dag$,  Zhiheng Xi$^1$, Long Ma$^1$,  Zhihao Zhang$^1$,  Shihan Dou$^1$, Zhikai Lei$^2$, Guoteng Wang$^2$\\
+\textbf{ Rui Zheng$^2$, Hang Yan$^2$, Tao Gui$^{1,3}$$^\dag$, Qi Zhang$^1$, Xuanjing Huang$^1$$^\dag$}
+\\
+$^1$Fudan University $^2$Shanghai Qiji Zhifeng Co., Ltd. $^3$Shanghai Innovation Institute \\
+\texttt{eyzhou23@m.fudan.edu.cn, \{tgui,xjhuang\}@fudan.edu.cn} 
+}
+\vspace{-50pt}
+\begin{abstract}
+As Large Language Models increasingly automate complex, long-horizon tasks such as \emph{vibe coding}, a supervision gap has emerged. While models excel at execution, users often struggle to guide them effectively due to insufficient domain expertise, the difficulty of articulating precise intent, and the inability to reliably validate complex outputs.  It presents a critical challenge in scalable oversight: enabling humans to responsibly steer AI systems on tasks that surpass their own ability to specify or verify.
+To tackle this, we propose Scalable Interactive Oversight, a framework that decomposes complex intent into a recursive tree of manageable decisions to amplify human supervision. Rather than relying on open-ended prompting, our system elicits low-burden feedback at each node and recursively aggregates these signals into precise global guidance. Validated in web development task, our framework enables non-experts to produce expert-level Product Requirement Documents, achieving a 54\% improvement in alignment. Crucially, we demonstrate that this framework can be optimized via Reinforcement Learning using only online user feedback, offering a practical pathway for maintaining human control as AI scales.
+\end{abstract}
+
+\begin{document}
+
+\doparttoc
+\faketableofcontents
+
+
+\begingroup
+  \renewcommand\thefootnote{}
+  \footnote{\textsuperscript{\dag}Corresponding authors.}
+    % \footnote{\textsuperscript{1}Our code are available at \url{https://github.com/WooooDyy/BAPO}.}
+  \addtocounter{footnote}{-1}
+\endgroup
+
+\vspace{-30pt}
+\maketitle
+
+
+
+
+\section{Introduction}
+
+Rapid progress in Large Language Model (LLM) reasoning and long-horizon planning has empowered models to tackle increasingly complex tasks with longer decision chains \citep{DBLP:journals/corr/abs-2512-04987,yang2025qwen3}. A salient example is \emph{vibe coding}, where users describe high-level software requirements in natural language, and the AI handles the implementation \citep{karpathy2025website,ge2025vibesurvey}. This paradigm effectively lowers the barrier for non-experts to build sophisticated software \citep{treude2025developers}.
+
+
+However, this shift introduces an asymmetry: the model becomes a strong executor, while the human is relegated to a comparatively weak supervisory role \citep{burns2023weak}.
+Crucially, this weakness is situational rather than just competence-based: users are constrained not only by insufficient domain expertise but also by the prohibitive time and cognitive effort required to precisely articulate intent. This limitation creates two bottlenecks. First, the specification gap: users often provide underspecified instructions, either because they lack the knowledge to identify constraints or simply cannot afford the bandwidth to detail them exhaustively \citep{hadfield2017off, ray2025vibereview, ge2025vibesurvey}. Second, the verification gap: as models autonomously execute long-horizon tasks, the complexity of their outputs often exceeds the user's capacity to efficiently validate them \citep{wu2021recursively,xi2025agentprm}.
+
+
+These challenges highlight a fundamental scalable oversight problem: enabling humans to steer capabilities that exceed their own \citep{openai2023superalignment}. While approaches like AI critique \citep{saunders2022self} and debate \citep{irving2018ai} help verify outputs, they largely rely on post-hoc evaluation. This is inefficient for long-horizon generation \citep{wu2021recursively}, where ambiguity needs to be resolved early to prevent the model from committing to a misaligned trajectory that is costly to reverse. Crucially, existing methods lack a pre-execution interaction layer \citep{sun2025training, deng2024towards}. They fail to help users elicit and structure their intent before the model acts, creating a gap in translating vague requirements into precise, verifiable specifications.
+
+
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=1\textwidth]{figures/main_pic_2.pdf}
+    \caption{\textbf{Motivation:} As AI increasingly surpasses humans in solving complex problems, people often delegate tasks such as software development to AI using only natural language instructions. However, misalignment arises in such collaboration. This is because humans become weak supervisors; they struggle to provide feedback on large outputs and challenging tasks. To tackle this, we propose a \textbf{Framework}: We decompose the task into a structured tree $\mathcal{T}^t$. After the interaction at node $v^t$, the user preference is accumulated to update $\mathcal{T}^t$ to $\mathcal{T}^{t+1}$. So the interaction afterwards will be more aligned with the user. The system loops until all nodes are completed.
+}
+    \label{fig:framework}
+\end{figure*}
+
+
+
+To bridge this gap, we propose Scalable Interactive Oversight, a framework that amplifies human supervision by decomposing complex intent into a recursive tree of manageable decisions. Rather than relying on open-ended prompting, our system functions as an interactive agent that guides the user through a structured elicitation process (Figure~\ref{fig:framework}). At each node of the decomposition tree, the user provides low-burden feedback—selecting or critiquing options—without needing to handle the full complexity of the output. This recursive interaction allows the agent to iteratively ``decode" vague user intent into precise, expert-level specifications, effectively steering the global behavior of the model before execution begins.
+
+
+
+
+
+We validate our approach using the ``sandwich'' protocol \citep{bowman2022measuring}, a rigorous evaluation setting where a non-expert user attempts to guide a strong model to achieve tasks that only an expert can verify. Focusing on full-stack website development as a benchmark, we assess whether non-experts can produce professional-grade Product Requirement Documents (PRDs) that match real-world complexity. Experiments demonstrate that our method significantly outperforms both standard \emph{vibe coding} baselines (e.g., \texttt{Claude Code}, \texttt{Gemini CLI}) and vanilla interaction methods, improving alignment scores by up to 54\%. Furthermore, we show that this interaction process is not just for inference; it generates high-quality supervision signals that can be used to optimize the model via Reinforcement Learning (RL), enabling the system to improve its questioning and alignment strategies from online user feedback.
+
+
+
+
+\textbf{Our contributions are summarized as follows:} \begin{itemize} \item \textbf{Problem Formalization:} We characterize the asymmetry between weak human supervision and strong model execution in current complex tasks, and formulate it as a concrete scalable oversight problem. \item \textbf{Scalable Interactive Oversight:} We propose an agentic framework that decomposes complex intent into a recursive tree of low-burden decisions. This mechanism empowers non-experts to proactively steer models toward professional-grade outcomes. \item \textbf{Learning from Interactive Supervision:} We demonstrate that our interaction signals serve as effective rewards for reinforcement learning. We validate that the framework can be jointly optimized via online user feedback and outcome-based verification. \end{itemize}
+
+
+
+\section{Preliminary \& Problem Setup}
+\label{sec:problem setup}
+We aim to develop a method that can help non-expert users steer strong LLMs and achieve professional results aligned with their true intent. Evaluating alignment is difficult because the human intention remains latent. 
+In this section, we detail our research setup, which operationalizes the theoretical ``sandwich” protocol to enable rigorous evaluation.
+\subsection{Preliminary: The ``Sandwich" Protocol}
+
+Sandwiching experiments pose an empirical test of a scalable oversight technique’s ability to align a model \citep{bowman2022measuring, cotra2021case}. There are three roles: (1) The non-expert, who has intentions but is a weak supervisor. They cannot perform the task or oversee a model without assistance. (2) The model sandwiched between, which has sufficient capability to perform the task, but may not be aligned. (3) The expert, who has all the capabilities to reliably evaluate the output. The expert provides a good-faith evaluation signal without performing the task, serving as an approximate upper bound on achievable alignment under correct supervision. 
+% With the three roles, the effect of a scalable oversight method can be measured by the gap between the alignment of outcomes from the non-expert–model collaboration and those evaluated by the expert as aligned with the intended objective.
+During the experiment, the non-expert uses a scalable oversight technique to supervise the model. The effect of the scalable oversight method can be measured by the gap in alignment achieved under non-expert supervision versus expert supervision. 
+
+\subsection{Problem Setup}
+
+We consider a scalable oversight setting in which a non-expert user seeks to align a strong language model with their latent intent, despite being unable to fully specify or verify the desired outcome. We situate the problem in the context of \emph{vibe coding}, where users express software requirements in natural language and the system autonomously produces development artifacts. 
+Directly evaluating alignment at the level of a complete software system is costly and capability-intensive: reviewing large codebases requires substantial expertise and is easily confounded by code-level implementation issues rather than requirement misalignment.
+Instead, we adopt the Product Requirements Document (PRD) as an evaluation pivot: a PRD captures the requirements while being substantially easier to assess than the final implementation itself \citep{jackson2012software, wiegers2013software}. Alignment is therefore evaluated by how well the PRD generated by the model reflects the user’s underlying intent. To enable rigorous evaluation, we instantiate the \emph{Sandwich Protocol} under our setting:
+\begin{itemize}
+    \item \textbf{The weak human (non-expert):} The user $\mathcal{H}$ cannot fully specify their intent or reliably verify execution outcomes due to limited cognitive bandwidth or insufficient software development expertise. As a result, $\mathcal{H}$ can only provide an initial, high-level query $q$, even though the user has an underlying intent $\mathcal{I}$ that constitutes the target of alignment.
+    \item \textbf{The model to supervise:} The model generates a PRD $\mathcal{D}^*$ in response to the user’s query. While it is capable of producing a complete PRD, its output may deviate from the user’s true intent $\mathcal{I}$ in the absence of effective supervision.
+    \item \textbf{Expert evaluator.} The expert does not participate in the generation process. Instead, the expert evaluates the degree of alignment between the final document $\mathcal{D}^*$ and the targeted user intent $\mathcal{I}$. Consistent with the \emph{Sandwich Protocol}, this assessment serves as an approximate upper bound of correct supervision, considering the intent as the observable ``golden standard".
+\end{itemize}
+
+
+Under this setup, our research objective is to develop scalable oversight methods that enable alignment achieved under weak human supervision to approach that achievable expert-level supervision.
+Concretely, we measure how closely the output $\mathcal{D}^*$ approaches the target intent $\mathcal{I}$ according to expert evaluation, and treat this as an indicator of how effectively weak human supervision is amplified.
+
+
+
+
+\section{Method: Scalable Interactive Oversight}
+In this section, we introduce an interaction agent that provides scalable oversight throughout the interaction process. It works in a decomposition-interaction loop:
+% Our goal is to develop a practical scalable oversight framework that enables non-expert users to effectively guide AI systems during complex collaborations and obtain professional-quality outcomes aligned with their full requirements.
+
+\paragraph{\textbf{Decomposition initializing:}} Given a natural language instruction $q$ by a human, the agent first decomposes the incoming long-horizon task into a tree-structured interaction plan $\mathcal{T}^0$. In the context of web-dev requirements, the leaf nodes correspond to concrete development modules (e.g., parent: UI design; child: display rule). 
+
+\paragraph{\textbf{Interacting at node-level:}} At this stage, the user provides supervision. For each leaf node $v^t$, the agent engages the user through low-burden queries tailored to the current subtask, and the user makes feedback based on the intentions (\textcircled{1} in Figure~\ref{fig:framework}). Specifically, we constrain the interaction questions in a closed form (primarily issues selection-based or ranking-based queries). 
+% For example, instead of asking “How should user authentication be implemented?”, the system presents concrete alternatives such as “Option A: OAuth 2.0 with social login; Option B: Email–password with 2FA.” 
+Users may also respond with \texttt{DontCare} (outside their concern) or \texttt{DontKnow} (beyond their understanding), allowing the interaction to adapt. 
+
+\paragraph{\textbf{Updating the task-decomposition:}} After completing the interaction for a leaf node, the agent summarizes the elicited feedback into a compact node preference $\mathcal{P}^t$ and adds it to a cumulative preference state (\textcircled{2} in Figure~\ref{fig:framework}). Then the agent updates the interaction plan conditioned on the cumulative preference state ($\mathcal{T}^t\rightarrow\mathcal{T}^{(t+1)}$, \textcircled{3} in Figure~\ref{fig:framework}), allowing future interactions to be adaptively shaped by previously expressed user intent. 
+
+This loop continues until all nodes are visited. At termination, the interaction agent is considered to have fully accumulated the user’s preferences, producing a global preference state that can be input to downstream generation. Algorithm~\ref{alg:framework} formalizes this interaction. All of the prompts we used in the workflow are presented in Appendix~\ref{app:prompts}. We illustrate interaction cases in Appendix~\ref{app:interaction cases}.
+
+\paragraph{This design adopts three mechanisms for scalable oversight:}
+\begin{itemize}
+    \item \textbf{Simplifying supervision.} First, users are only required to provide selection or ranking feedback, rather than fully specifying requirements in natural language. Because comparative judgments impose lower cognitive demands than requirement specification \citep{radhakrishnan2023scalable}, this design makes supervision easier for users.
+    \item \textbf{Amplifying supervision signal.} The interaction agent recursively amplifies weak supervision signals by accumulating user preferences across the interaction tree. This is inspired by the previous scalable oversight methods \citep{christiano2018supervising, wu2021recursively}. Through this recursive preference propagation, the human feedback can be transformed into increasingly strong supervision as interactions increase, enabling more effective alignment. Second, by decomposing a complex task into a tree of localized subtasks, the system relieves users from managing a large global scope. As a result, non-expert users can provide supervision without needing a holistic understanding of the entire scope. 
+    \item \textbf{Scaling interaction}. The tree-based architecture inherently supports interactions of arbitrary depth, offering a scalable path toward aligning increasingly complex systems. As long as the user's cognitive load permits, the tree can be expanded indefinitely to facilitate human-AI collaboration on increasingly sophisticated tasks. 
+\end{itemize}
+
+
+\begin{algorithm}[t]
+\caption{Interactive Requirement Elicitation}
+\label{alg:framework}
+\begin{algorithmic}[1]
+\STATE \textbf{Input:} User $H$ with implicit requirement $\mathcal{I}$ and query $q$, interaction policy $\pi_{\text{interaction}}$
+\STATE \textbf{Output:} Product Requirement Document $\mathcal{D}^*$
+\STATE Initialize requirement tree $\mathcal{T}^{(0)} \gets \text{InitializeTree}(q)$
+\STATE Initialize context $\mathcal{M} \gets \emptyset, t \gets 0$
+\WHILE{$\mathcal{T}^{(t)}$ contains unresolved nodes}
+    \STATE $v^t \gets \text{Depth-first traversal}(\mathcal{T}^{(t)})$
+    \STATE $\mathcal{P}^t \gets \text{Interact}(H(\mathcal{I}), \pi_{\text{interaction}}, v^t, \mathcal{M})$ 
+    \STATE $\mathcal{M} \gets \text{UpdateContext}(\mathcal{M}, v^t, \mathcal{P}^t)$ 
+    % \STATE $\mathcal{T}^{(t+1)} \gets \text{UpdateTree}(\mathcal{T}^{(t)}, v^t, \mathcal{P}^t)$ \COMMENT{Mark node as resolved}
+    \STATE $t \gets t + 1$
+\ENDWHILE
+\STATE $\mathcal{D}^* \gets \text{GeneratePRD}(\mathcal{T}^{(t)}, \mathcal{M})$
+\STATE \textbf{return} $\mathcal{D}^*$
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+
+\section{Empirical Validation of Scalable Interactive Oversight Framework at Test Time}
+
+
+% \section{Validating Scalable Interactive Oversight at Test Time}
+% In this section, we validate the effectiveness of Scalable Interaction Oversight at test time.
+\subsection{Setup}
+
+\textbf{Task and Dataset.} 
+We focus on enabling non-expert users to produce professional website development requirements that align with their true intent. 
+To operationalize this evaluation objective, we construct PRDs based on real-world websites and regard them as the true intent $\mathcal{I}$ for the users. Specifically, we crawl production websites to collect their complete UI components, and use search-augmented LLM to gather additional publicly available information, such as related GitHub repositories and other functional descriptions.
+Using the detailed function description and UI components. Then we use LLMs to generate a structured PRD for each website, omitting low-level technical details to better reflect non-expert requirements.
+Following established practices in software engineering \citep{wiegers2013software}, we structure all PRDs into five modules: \textit{product overview}, \textit{core function},\textit{ non-functional requirements}, \textit{business rules}, and \textit{user experience design}. See PRD cases in Appendix~\ref{app:expert prd cases}.
+
+We then synthesize an initial user request $q$ (e.g., ``I want to build a recipe-sharing platform'') that a non-expert might plausibly provide during \emph{vibe coding}. The initial requirement tree $\mathcal{T}^{0}$ is generated from $q$ with the five root nodes. 
+We sample 37 test cases for the test time validation.
+
+
+\paragraph{\textbf{Evaluation settings.}} Following the ``sandwich" setting in Section~\ref{sec:problem setup}, we evaluate the similarity between the generated $\mathcal{D}^*$ and the target intent $\mathcal{I}$ using a rubric-based evaluation. Each $\mathcal{I}$ is decomposed into atomic requirements $\mathcal{R} = \{r_1, \ldots, r_m\}$ (e.g., ``user authentication methods'', ``responsive design''), and we compute the \textbf{Alignment Score} as follows:
+\[
+\text{Alignment Score}(\mathcal{D}^*) = \frac{1}{|\mathcal{R}|} \sum_{r_i \in \mathcal{R}} \mathbb{I}[r_i \text{ satisfied in } \mathcal{D}^*]
+\]
+In large scale evaluation, we applied LLM-judge based on \texttt{Qwen3-235B-A22B-Instruct}. We provide LLM-judge details and its validation in Appendix~\ref {app:llmjudge}.
+
+\paragraph{\textbf{User simulation.}} To scale our experiments, we develop a user simulator $\mathcal{H}(\mathcal{I}, q)$ that emulates non-expert user behavior during interaction. Conditioned on the ground-truth intent $\mathcal{I}$, the initial query $q$, and a non-expert role specification, the simulator interacts with the system and provides feedback throughout the workflow. We implement the simulator with \texttt{deepseek-R1}, chosen for its strong role-playing capability. We validate the simulation against a test set of real user interactions to ensure fidelity. More details about user simulation are in Appendix~\ref {app:user simulation}.
+
+\paragraph{\textbf{Baselines.}} 
+% 我们将我们的方法与以下基线进行比较： We compare against:
+% \textbf{(1) Direct Generation}—- no-interation PRD generation from $\mathcal{I}_0$ without interaction, testing whether one-shot prompting suffices;
+We compare our method against two baselines:
+(1) Direct PRD generation with popular vibe coding framework without interaction, e.g., \texttt{codex}, \texttt{claude-code}, \texttt{gemini-cli}.
+(2) Vanilla interaction: vanilla multi-turn free-form dialogue to generate a PRD. We use \texttt{GPT-5}, \texttt{claude-sonnet-4.5}, and \texttt{gemini2.5-pro} as the PRD generator, i.e., the strong but maybe misaligned model under the ``sandwich" setting. For the interaction model in vanilla interaction and ours, we use the corresponding model to interact with the users as well as the tree updating (except for the gemini experiment, because it doesn't adhere well to JSON format tree structures, so we used o4-mini for tree structure updates. Results in Section~\ref{sec:ablation study} shows that this didn't significantly affect the results). Details baseline settings are in Appendix~\ref{app:baseline settings}.
+% 我们分别使用 gpt-5，claude 和 gemini-2.5-pro 作为文档合成模型（对应三明治策略中的那个能力强但是可能没有被对齐的模型）来测试。对于 vanilla interaction 实验和我们的交互策略中，我们也使用对应的模型进行交互和树结构的更新（除了 gemini的实验，因为他对 json 格式的树结构不具有很好的遵循，我们使用了 o4-mini 进行树结构的更新。后续的 4.3 实验证明了这个不会对结果产生很大的影响）
+
+
+\begin{figure*}[t]
+    \centering
+    \makeatletter\def\@captype{table}\makeatother 
+    \caption{Results of test time experiments. The model means the doc generator, i.e., the model to be aligned. \texttt{Module1-Module5} are the PRD modules: \textit{product overview}, \textit{core function},\textit{ non-functional requirements}, \textit{business rules}, and \textit{user experience design}. Best results are bolded.}
+    \label{tab:main_results}
+    \small
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{llcccccc}
+        \toprule
+        \textbf{Model} & \textbf{Method} & \texttt{Module 1} & \texttt{Module 2} & \texttt{Module 3} & \texttt{Module 4} & \texttt{Module 5} & \textbf{Avg. on all} \\
+        \midrule
+        \multirow{3}{*}{\texttt{GPT-5}}
+         & \texttt{Codex} & 0.595 & 0.516 & 0.476 & 0.479 & 0.351 &  0.481 \\
+         & Vanilla interaction & 0.671 & 0.676 & 0.544 & 0.512 & 0.444 & 0.503 \\
+         \rowcolor{resultgreen!15}
+         & \textbf{Ours} & \textbf{0.749} & \textbf{0.753} & \textbf{0.672} & \textbf{0.616} & \textbf{0.558} & \textbf{0.670} \\
+        \midrule
+        \multirow{3}{*}{\texttt{Claude-sonnet-4.5}}
+         & \texttt{Claude Code} & 0.632 & 0.636 & 0.621 & 0.589 & 0.511 & 0.597 \\
+         & Vanilla interaction & 0.671 & 0.576 & 0.524 & 0.587 & 0.416 & 0.565 \\
+         \rowcolor{resultgreen!15}
+         & \textbf{Ours} & \textbf{0.706} & \textbf{0.661} & \textbf{0.622} & \textbf{0.602} & 0.500 & \textbf{0.618} \\
+         \midrule
+        \multirow{3}{*}{\texttt{Gemini-2.5-pro}}
+         & \texttt{Gemini CLI} & 0.609 & 0.510 & 0.472 & 0.404 & 0.327 & 0.464\\
+         & Vanilla interaction & 0.618 & 0.448  & 0.369 & 0.336 & 0.242 & 0.359\\
+         \rowcolor{resultgreen!15}
+         & \textbf{Ours} & 0.590 & \textbf{0.594} & \textbf{0.523} & \textbf{0.487} &\textbf{0.447} & \textbf{0.554 }\\
+        \bottomrule
+    \end{tabular}%
+    }
+\end{figure*} 
+
+\subsection{Results}
+
+
+Table~\ref{tab:main_results} presents results on simulated users across PRD modules. Module-level scores are the fraction of satisfied rubrics per module, and the overall score is the fraction satisfied across all modules.
+\textbf{Our method exhibit remarkable improvement over the baselines on the alignment metric.} 
+Both popular vibe coding frameworks and vanilla interaction struggle to capture nuanced user intent in comprehensive PRDs. On \texttt{GPT-5}, we achieves substantial improvements of 33\% and 39\% over vanilla interaction and \texttt{codex}, respectively. On \texttt{claude-sonnet-4.5}, we achieve  0.618 on average, consistently outperforming both vanilla interaction and \texttt{claude code}. Notably, the improvement is also pronounced on \texttt{Gemini-2.5-pro}: our framework increases the average score from 0.359 (vanilla interaction)  to 0.554, corresponding to a +54\% relative gain.
+
+Across modules, the largest and most consistent gains appear on Module 2 (core function), which most directly reflects users’ core needs (e.g., +0.24 on \texttt{GPT-5} vs. \texttt{codex}, +0.15 on \texttt{gemini-2.5-pro} over vanilla interaction). Modules 3–5 generally exhibit lower across methods, likely because user intent is harder to infer at these stages. Our approach mitigates this difficulty and improves late-stage performance, achieving up to +0.21 on Module 5. Overall, Ours improves average performance while demonstrating sustained alignment as interaction progresses and preferences accumulate.
+
+% \textbf{Our framework demonstrates improvements especially in preference-driven tasks.} We attribute the narrower improvements in Modules 3-5 to the dataset construction: unlike Modules 1-2, which are always observable when crawling UIs, where ground-truth requirements are manifest in UIs, UX and technical architectures may remain latent. So they may be synthesized from generic industry best practices by the doc-generation model. This pattern-based nature naturally limits the room for user-specific preference. Despite this, our method consistently outperforms baselines (e.g., 0.558 vs. 0.511 on \texttt{GPT-5} Module 5), proving its efficacy in aligning both explicit preferences and implicit design patterns.
+
+
+\paragraph{\textbf{The performance scales with interaction.}} 
+% 我们每隔 5 个交互节点，以当前节点所累积的用户偏好生成中间 PRD，并评估其与专家 PRD 的对齐度。 Figure~\ref{fig:score_evolution} illustrates alignment score evolution over interaction rounds. 结果表明，无论是 gpt 还是 claude 模型，我们的方法随着交互轮数的上升都体现出显著的对齐度提升。而方法中树的结构交互的轮数在实际应用中也存在 scale 的特性，这说明了我们的方法在实际应用中具备良好的可扩展性。
+The tree-structured decomposition provides scalability for our framework. To evaluate whether scaling interaction boosts the performance, we generate an intermediate PRD based on the accumulated preferences and evaluate its alignment with the oriented one every 5 interaction nodes. Figure ~\ref{fig:score_evolution}(left) illustrates the alignment score evolution on GPT-5. The improvement in alignment with the increasing number of interaction nodes indicates that our method has good scalability in future applications.
+
+% \begin{wrapfigure}{r}{0.5\linewidth}
+%     \centering
+%     \vspace{-8pt}
+%     \includegraphics[width=\linewidth]{figures/scaling interaction.pdf}
+%     \caption{Alignment score evolution over interaction. Scores are measured from intermediate documents generated with cumulative preferences with the GPT-5 as interaction agents (Left: simulated user; Right: human user).}
+%     \label{fig:score_evolution}
+%     \vspace{-8pt}
+% \end{wrapfigure}
+\vspace{-3pt}
+\begin{figure}[t]
+\centering
+
+% -------- Left: Figure --------
+\begin{minipage}[t]{0.6\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/scaling_interaction.pdf}
+
+    {\captionsetup{type=figure,width=\linewidth}
+    \caption{Alignment score evolution over interaction. Scores are measured from intermediate documents generated with cumulative preferences with GPT-5 as interaction agents (Left: simulated user; Right: human user).}
+    \label{fig:score_evolution}}
+\end{minipage}
+\hfill
+% -------- Right: Table --------
+\begin{minipage}[t]{0.38\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/ablation_green_tight.pdf}
+
+    {\captionsetup{type=figure,width=\linewidth}
+    \caption{Results of ablation study. We test on the fisrt 2 modules with GPT-5 as the interacton model.}
+    \label{fig:ablation}}
+\end{minipage}
+
+\end{figure}
+
+
+\begin{wraptable}{r}{0.52\linewidth}
+\vspace{-9pt}
+\centering
+\caption{Alignment scores of final web implementations, showing consistent improvements over the baseline.}
+\small
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{C{2cm} C{2cm} C{2.2cm} C{2.2cm}}
+\toprule
+Baseline (LLM-judge) &
+Ours (LLM-judge) &
+Baseline (Human-judge) &
+Ours (Human-judge) \\
+\midrule
+0.338 &
+\textbf{0.656} {\scriptsize (+0.319)} &
+0.453 &
+\textbf{0.520} {\scriptsize (+0.067)} \\
+\bottomrule
+\end{tabular}
+}
+\label{tab:webjudge-comparison}
+\vspace{-8pt}
+\end{wraptable}
+
+
+\paragraph{\textbf{The improvements also exhibit in to final web implementations.}}
+% 我们以 baseline 方法生成的需求文档和我们的方法生成的文档出发，使用 claude-opus-4.5 在 claude code 框架下合成了对应的网站。然后基于相同的 rubrics 要求opus 作为 evaluator 分别对生成的网站进行对齐效果的打分。为了排除大模型打分不确定性的影响，我们从合成的代码中选取了可以成功部署的部分，要求人类评分者对照 rubrics 进行打分部署，分数如下：
+From requirement documents generated by the no-interaction baseline and our method, we generate corresponding full-stack websites using \texttt{claude-opus-4.5} under the \texttt{claude code} framework, and evaluate their alignment with the same evaluation method. We evaluate the alignment of the resulting implementations using the same rubric-based evaluation as in the PRD-level assessment, with \texttt{claude-opus-4.5} acting as the LLM judge under the \texttt{claude code} framework as well. We additionally ask human judges to score successfully deployable implementations.  The results are reported in Table~\ref{tab:webjudge-comparison}. Our method consistently outperforms the baseline under both LLM-based and human evaluation, indicating improved alignment. We show some examples of the deployed website in Appendix~\ref{app:web cases}.
+
+
+
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=1\textwidth]{figures/case_study2.pdf}
+    \caption{Case Study. Left: Tree nodes are evolved with the preference elicited. Middle: The system amplifies the preference but prevents the ambiguity amplification. Right: The output could balance between non-expert perference with expertise.}
+    \label{fig:case_study}
+\end{figure*}
+
+
+\paragraph{\textbf{Qualitative analysis.}}
+Partial execution traces of our framework are shown in Figure~\ref{fig:case_study} (see Appendix~\ref{app:interaction cases} for detailed examples). The cases indicate the three fact: (1) User preferences directly dictate the dynamic reconfiguration of the tree structure; (2) When facing the ambiguous or uncertain user inputs the system proactively initiates clarification cycles and adjusts the interaction strategy to ensure data integrity; (3) When aligning users, the system ensures that the proposed options meet the requirements of advancement.
+
+
+\subsection{Ablation Study}
+% 为了证明
+\label{sec:ablation study}
+Using the vanilla multi-turn interaction as a baseline, we analyze the incremental impact of our proposed components on the first two modules(Figure~\ref{fig:ablation}):
+\begin{itemize}
+    \item \textbf{Easy supervision}: We first evaluate the effect of providing interaction policy that ease the feedback by removing the tree-based preference propagation. The results show moderate gains (e.g., a 4.7\% improvement in Module 2), indicating that constraining user feedback into closed formats helps reliable feedback. 
+    \item \textbf{Tree-based preference propagation}: To isolate the system effects from model capacity, we replace the full controller with a lightweight model (\texttt{o4-mini}) for tree updates. Even this lightweight variant yields a substantial gain (e.g., +11.7\% on Module 2), indicating that explicit interaction state management and preference propagation play an important role beyond controller model scaling.
+\end{itemize}
+
+% \paragraph{\textbf{Easy supervision}}: We first evaluate the effect of providing interaction policy that ease the feedback by removing the tree-based preference propagation. The results show moderate gains (e.g., a 4.7\% improvement in Module 2), indicating that constraining user feedback into closed formats helps reliable feedback. 
+
+% \paragraph{\textbf{Tree-based preference propagation}}: To isolate the system effects from model capacity, we replace the full controller with a lightweight model (\texttt{o4-mini}) for tree updates. Even this lightweight variant yields a substantial gain (e.g., +11.7\% on Module 2), indicating that explicit interaction state management and preference propagation play an important role beyond controller model scaling.
+
+
+% \subsection{Case Study}
+% \paragraph{\textbf{Real-user study}} 
+
+\subsection{Real-user Study on Alignment Effectiveness}
+% 我们招募非专家用户参与真实交互实验。用户被要求从一个简单的初始请求开始，通过与系统的多轮交互，逐步澄清和细化他们的需求，最终生成一个完整的 PRD。实验结果显示，经过平均 15 轮交互后，用户生成的 PRD 在专家评审中达到了 78\% 的对齐率，显著高于未经过交互的初始请求（仅 32\% 对齐率）。用户反馈表明，结构化的交互流程和低负担的反馈机制极大地提升了他们表达需求的能力和信心。
+We hired a non-expert to engage in our interaction system. The user is required to collaborate with the \texttt{GPT-5} based on the given requirements, to generate professional-level documents. Due to the resource limit, we conduct the experiments on 10 cases. The results also indicate the trend: \textbf{The more interaction, the more aligned.}  For every three interaction nodes, we use the accumulated preference to generate the document with \texttt{GPT-5}. The results is illustrated in Figure~\ref{fig:score_evolution}(right),  exhibiting the increase in alignment scores as interaction rounds progress.  And the user reported that: \textit{It enables detailed and in-depth control.} There are detailed real-user interaction cases in Appendix~\ref{app:real user case}.
+
+% \textbf{Our system enables more detailed and in-depth control.} As the user said, \textit{"Responding to \texttt{codex} felt like a memory test for the whole project, but this system asked simple, guided questions that dug deeper into the requirements."} This iterative steering allows non-experts to reach a level of detail that is difficult to achieve through the complex, large-scale 
+
+
+
+% \paragraph{\textbf{Qualitative analysis}} 
+% Based on interactions with human and simulated users, we derive several qualitative insights. A partial execution trace of our framework is shown in Figure~\ref{fig:case_study} (see Appendix~\ref{app:interaction cases} for detailed examples). 
+
+% \textbf{Preference-driven structural evolution.} As illustrated in Figure~\ref{fig:case_study}(left), user preferences directly dictate the dynamic reconfiguration of the tree structure. The structural shifts demonstrate the framework's sensitivity to user intent.
+
+% \textbf{Prevention of ambiguity amplification.} Our system amplifies preferences, but does not accumulate errors. As shown in the in Figure~\ref{fig:case_study}(middle), when facing the ambiguous or uncertain user inputs the system proactively initiates clarification cycles and adjusts the interaction strategy to ensure data integrity.
+% \textbf{Balancing preference with expertise.} When aligning users, the system ensures that the proposed options meet the requirements of advancement. In the case in Figure~\ref{fig:case_study}(right) If a user indicates that they are not interested in a specificdirection, the system will automatically select the best configuration for the user.
+
+
+
+
+
+
+
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{figures/ablation_red.pdf}
+%     \caption{Results of ablation study.}
+%     \label{fig:ablation}
+% \end{figure}
+
+
+
+
+
+
+
+
+% \section{Training Interaction Agents via RL from Online Feedback}
+\section{Training Interactive Agents with RL from Online Human Feedback}
+% \section{Reinforcement Learning for Interaction Agents from Online Feedback}
+% \section{Reinforcement Learning for Interaction Agents from Online Human Feedback}
+
+
+\begin{figure*}
+  \centering
+  \includegraphics[width=0.95\textwidth]{figures/training_rollout_green.pdf}
+  \caption{Left: Illustration of the training rollout. A query may generate multiple traces.
+Right: Reward assignment in RL training.}
+  \label{fig:rl_setup}
+\end{figure*}
+
+
+% RLHF 是常用于提升模型对齐程度的技术，但是 RLHF 依赖于偏好的标注，通常需要人类对回复的好坏进行比较或者评分，在软件开发的任务中，这对非专家用户来说是一个很大的负担。在本节中，我们验证了单纯依靠来自若监督者的信号就可以对模型进行在线优化。此外，如果有一个评分系统可以为交互的进程进行第三方的打分，对齐的效果可以进一步增强。
+Although RLHF \citep{ouyang2022training} is a common technique for improving model alignment, it still relies on comparing or rating outputs \citep{wang2024secrets,zhou2024rmb}. In software development tasks, this is hard for non-expert users. In this section, we validate that we can directly use online feedback signals from weak supervisors to optimize the interaction agent. An external evaluator could further provide effective reward signals.
+
+\subsection{Reinforcement Learning Setup \& Formalization}
+
+% 对于训练的 rollout 过程进行形式化定义。对于 group j，对于第一个交互节点 v1，策略模型\pi_{interaction}与模拟用户 H(full intent Hj)进行多轮交互，获得交互序列S_{j,1}。更新上下文管理器 M，选择下一个节点 v2，继续与用户 H 进行交互，获得交互序列 S_{j,2}。重复该过程直到所有节点均被处理完毕，最终生成 PRD D_j^*。由于迭代结构的存在，我们的框架产生的 trace 包含了多轮的交互信息，而他们又并非共享前缀，因此每一个输入的数据（这是一个{initial intent Ij, full intent Hj})这通常产生多条训练的数据，如图左所示。
+\paragraph{\textbf{Training rollout.}} Given query $q_j$, at node $v_1$, the policy $\pi_{\text{interaction}}$ interacts with simulated user $\mathcal{H}(\mathcal{I}_j,q_j)$ to produce $S_{j,1}$. Then $\pi_{\text{interaction}}$ updates $\mathcal{M}$ with node preference, select next node, obtain $S_{j,2}$. Iterate until all nodes are resolved to yield PRD $D_j^*$. Because traces are multi-turn and do not share prefixes, each input typically produces multiple training sequences (see Figure~\ref{fig:rl_setup}, left).
+
+
+% \paragraph{\textbf{Algorithm.}} We use a variant to REINFORCE algorithm. Compared to direct GRPO \citep{shao2024deepseekmath}, this is better suited to multi-turn traces with non-shared prefixes and small per-prompt groups, avoiding unstable per-group rescaling while still supporting dense token-level rewards via masked returns and global whitening:
+% \begin{equation}
+%   A_{i,t} = \left(\frac{R_{i,t} - \mu_{\mathcal{B}}}{\sigma_{\mathcal{B}} + \epsilon}\right) \mathbb{1}[t \le L_i],
+% \end{equation}
+% \begin{equation}
+%   \nabla_{\theta} J(\theta) \approx \frac{1}{|\mathcal{B}|} \sum_{i,t} A_{i,t} \, \nabla_{\theta} \log \pi_{\theta}(a_{i,t} \mid s_{i,t}).
+% \end{equation}
+
+\paragraph{\textbf{Training settings.}} We trained a \texttt{Qwen3-30B-A3B} model as the initial policy. 
+% The model was fine-tuned on 700 samples with a learning rate of $5e-5$. For the RL experiments, we used a learning rate of $2e-6$ and a training batch size of 8, with a clipping range of $[0.8, 1.2]$. Unless otherwise specified, we set the number of PPO epochs to 1 and the rollout size to 4, which achieved the best empirical performance in our experiments. Figure~\ref{app:training_dynamics_fig} compares the effects of different PPO epochs and rollout sizes on the training reward. 
+We use \texttt{gemini-2.5-pro} as the doc generator and use \texttt{o4-mini} to update the requirement tree for the rollout. For the advantage calculating, we use a variant to GRPO algorithm \citep{shao2024deepseekmath}.
+Detailed training settings and parameter comparison experiments are presented in Appendix~\ref{app:rl app}. 
+% In the following section, we present the best result.
+
+
+
+
+\subsection{Online Reward from Weak-supervisor}
+% 我们首先关注的是是否能够完全依靠来自用户的弱监督信号来训练模型。因此，我们设计了User reward，对于每一个可训练交互序列 S_{j,i}，统计交互序列中的用户表达dont care 的次数占总轮次的比例，作为该交互序列的惩罚奖励。Formally：
+
+\paragraph{\textbf{Reward design.}}We first focus on whether we can rely entirely on weak supervision signals from users to align the model. Therefore, we design a User Reward (UR): for each trainable interaction sequence $S_{j,i}$, we count the proportion of \texttt{DontCare} responses from the user as a penalty reward. Formally:
+\[
+UR(S_{j,i}) = - \frac{\sum_{t=1}^{|S_{j,i}|} \mathbb{I}[f^t = \texttt{DontCare}]}{|S_{j,i}|}
+\]
+This reward encourages the model to minimize the frequency of \texttt{DontCare} responses, thereby promoting more effective and engaging interactions that better capture user intent. Notably, this reward is purely online.
+
+
+\paragraph{\textbf{Result.}} The interaction could be optimized with the signal from the non-expert user only, as Figure~\ref{fig:training_dynamics}(left) shows. With the training reward increase over steps, which means the ratio that the user expresses \texttt{DontCare} decreases, the alignment score also increases. This result is exciting because it demonstrates a weak-to-strong optimization effect, where non-experts' feedback at interaction time is sufficient to guide stronger models. From another perspective, this makes online training possible because the reward is online.
+
+
+\subsection{Combining Reward from Expert Evaluator}
+
+
+\paragraph{\textbf{Reward design.}} Further, we incorporate an Expert Reward based on the evaluation of generated PRDs. A direct reward is \textbf{Outcome Reward (OR)}, using the alignment score between generated PRD $D_j^*$ and oriented intent $\mathcal{I}$. Each $S_{j,\_}$ could share the same outcome reward. Considering the scarcity of final reward, we also design \textbf{Progressive Reward(PR)} to evaluate node-level interaction gain. At each node $v^i$, there is accumulated preference conclusions ${\mathcal{P}^1_j, \ldots, \mathcal{P}^{i-1}_j}$ and a new conclusion $\mathcal{P}^i_j$. The $PR_{j,i}$ evaluates whether the existence of $\mathcal{P}^i_j$ could make progress in the alignment between accumulated preferences and the oriented $\mathcal{I}_j$. The llm judge prompt of the progressive reward is presented in Appendix~\ref{app:prm prompt}. In optimization, we use the reward as their combination for the $j_{th}$ sample in the batch:
+\[
+R(S_{j}) = \sum^{i}({PR_{j,i}+UR_{j,i}})/n+0.5*OR_{j}
+\]
+\paragraph{\textbf{Result.}} The combination of the reward from both the user and expert further enhances the optimization as the Figure~\ref{fig:training_dynamics} shows. This reward makes the system achieve a higher alignment score. However, the online reward makes the training dynamic stabler. In Appendix~\ref{app:rl app}, we present the ablation study of the reward design, which indicates that all of the rewards could boost the RL training.
+
+
+
+
+
+\begin{figure*}[t]
+
+% \vspace{2pt}
+% \noindent
+% {\footnotesize\raggedright
+% $\dagger$~\texttt{M3}–\texttt{M5} are held out during training and only evaluated at test time.
+% }
+\centering
+
+% ---------- Table ----------
+\small
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.15}
+
+\captionof{table}{Test results for the RL model. For the left parts, we use the test setting same as training (i.e. \texttt{gemini-2.5-pro} as doc generator, \texttt{o4-mini} as tree updator). We also use \texttt{GPT-5} as the tree updator and the doc generator in test-time to test if the model could fit into unseen settings. \texttt{M1}-\texttt{M5} is the five parts of PRD as Table~\ref{tab:main_results}, where \texttt{M3}–\texttt{M5} are not included during training (marked in $\dagger$).}
+\label{tab:clean_fullwidth}
+
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc|cccccc}
+
+
+\toprule
+Test Configuration
+& \multicolumn{6}{c}{\texttt{o4-mini + Gemini-2.5-pro}}
+& \multicolumn{6}{c}{\texttt{GPT-5 + GPT-5}} \\
+\cmidrule(lr){2-7}\cmidrule(lr){8-13}
+
+& \texttt{M1} & \texttt{M2} &  \texttt{M3}$^\dagger$ & \texttt{M4}$^\dagger$ & \texttt{M5}$^\dagger$ & Avg.
+& \texttt{M1} & \texttt{M2} & \texttt{M3}$^\dagger$ & \texttt{M4}$^\dagger$ & \texttt{M5}$^\dagger$ & Avg. \\
+\midrule
+SFT
+& 0.606 & 0.554 & 0.539 & 0.524 & 0.436 & 0.527
+& 0.622 & 0.641 & 0.642 & 0.610 & 0.565 & 0.616 \\
+\rowcolor{resultgreen!15}
+User Reward
+& 0.628 & 0.590 & 0.522 & 0.496 & 0.443 & 0.536
+& 0.624 & 0.682 & 0.643 & 0.627 & 0.571 & 0.629 \\
+\rowcolor{resultred!15}
+User+Expert Reward
+& \textbf{0.645} & \textbf{0.595} & \textbf{0.554} & \textbf{0.525} & \textbf{0.475} & \textbf{0.559}
+& \textbf{0.661} & \textbf{0.712} & \textbf{0.657} & \textbf{0.646} & \textbf{0.618} & \textbf{0.659} \\
+\bottomrule
+% \addlinespace[-0.1em]
+% \multicolumn{13}{l}{\footnotesize
+% $\dagger$~\texttt{M3}–\texttt{M5} are held out during training and only evaluated at test time.
+
+
+\end{tabular}
+}
+
+
+\vspace{0.5em} % 控制表和图之间的间距
+
+% ---------- Figure ----------
+\includegraphics[width=0.99\textwidth]{figures/training_dynamics.pdf}
+\captionof{figure}{RL training dynamics. This curve is based on the same agent configuration as the rl training. The alignment score is calculated based on performance on Modules 1 and 2, which are the modules used during training, and we report the average across three test runs. Both the online reward and the combination of outcome reward make the system better. The latter reached higher.}
+\label{fig:training_dynamics}
+
+\end{figure*}
+
+
+
+
+
+
+
+
+\subsection{RL Enhances Generalization and Efficiency}
+
+\textbf{Both reward designs exhibit generalization to untrained modules and unseen test settings.} The RL training is conducted within Module 1 and Module 2. During the test time, we use the best-performance models to conduct full interaction both under the RL training settings and GPT-5 setting. The results are shown in Table~\ref{tab:clean_fullwidth}, although \texttt{M3}–\texttt{M5} are not included during RL training, both ``User Reward" and ``User+Expert Reward" setting show improved performance on these untrained modules. Under the same-as-training setting, ``User+Expert Reward" improves the average score on \texttt{M3}–\texttt{M5} from 0.500 to 0.518. 
+This trend is further amplified under the GPT-5 setting, where the average score on the untrained module increases from 0.606 to 0.640.
+
+
+\begin{wrapfigure}{r}{0.6\linewidth}
+    \centering
+    \vspace{-9pt}
+    \includegraphics[width=0.98\linewidth]{figures/RLinteraction_turns.pdf}
+    \caption{Training progress vs interaction turns. Left: average total turns. Right: average turns per node. Interaction turns decrease over training, indicating improved interaction efficiency.}
+    \vspace{-9pt}
+    \label{fig:effiency}
+\end{wrapfigure}
+\paragraph{\textbf{RL improves interaction efficiency.}} We visualize the change in the number of interaction nodes over the course of RL training in Figure~\ref{fig:effiency}. No matter whether measured by the total number of interaction rounds (left) or the number of interaction rounds per node (right), both metrics exhibit a clear downward trend, indicating that RL training enables the model to conduct more effective interactions and acquire information with higher efficiency.
+
+% \begin{figure}
+%     \centering
+%     % \vspace{-9pt}
+%     \includegraphics[width=0.98\linewidth]{figures/RLinteraction_turns.pdf}
+%     \caption{Training progress vs interaction turns. Left: average total turns. Right: average turns per node. Interaction turns decrease over training, indicating improved interaction efficiency.}
+%     \label{fig:effiency}
+% \end{figure}
+
+
+\section{Related Work}
+\textbf{Scalable oversight.} 
+Superalignment emphasizes the need to steer and control AI systems that are much more capable than humans \citep{openai2023superalignment}. Scalable oversight addresses this challenge by reframing supervision as an easier task, enabling humans to oversee models beyond their direct capabilities. Prior work has explored several scalable oversight paradigms, including AI critique \citep{saunders2022self,lee2023rlaif,bai2022constitutional, xi2024enhancing,mcaleese2024llm}, where auxiliary models evaluate or verify outputs; amplification, which decomposes complex tasks into simpler subproblems \citep{christiano2018supervising, wu2021recursively}; and debate, which surfaces errors and misalignment by eliciting competing arguments for human judgment \citep{irving2018ai}.
+ `Sandwiching' framework is proposed to measure the effectiveness of an alignment method \citep{cotra2021case, bowman2022measuring}.
+However, most of these paradigms primarily focus on evaluating, decomposing, or contesting model outputs, rather than shaping user intent before execution.
+We bridge this gap by implementing a practical interactive framework that enables non-experts to effectively align AI agents.
+
+
+\paragraph{\textbf{Vibe coding.}} The rapid evolution of large language models has transformed the role of AI in software engineering from a passive code-writing aid into an active, agentic collaborator \citep{openai2025codex,anthropic2025claudecode,google2025geminicli}. This transformation has introduced an emergent development approach - often referred to as \emph{Vibe Coding}- in which programmers rely on behavioral validation of AI-produced systems, emphasizing empirical outcomes over direct examination of the underlying source code \citep{karpathy2025website,horvat2025vibe,ge2025vibesurvey,ray2025vibereview}. However, this new paradigm presents reliability challenges. Quantitative research shows that collaborating with code agents unexpectedly increases the task-completion time for 19\% \citep{becker2025measuring}. The limitation of natural language in expressing complex development requirements has exposed \citep{treude2025developers,schmidt2024towards}.
+
+
+\section{Conclusion \& Future Work}
+In this paper, we first observe that as models increasingly replace humans in performing complex tasks, the relationship between humans and models is gradually shifting toward one between weak supervisors and strong executors. Motivated by this, we propose Scalable Interactive Oversight under which non-expert humans can effectively steer LLMs to produce expert-level and aligned outputs. We evaluate on website requirement generation task, where our method significantly improves the alignment over baselines. Furthermore, we train the interaction agent using reinforcement learning and find that online supervision signals from non-expert humans alone are sufficient to improve system alignment, while incorporating training signals from expert evaluators can further enhance performance.
+
+
+% \vspace{-1.2cm}
+
+
+Several open directions remain for future work. First, the interaction efficiency could be further improved through specific UI design, as our current selection- and ranking-based interactions can be completed via simple screen clicks rather than text entry. Second, broader real-user evaluations would be valuable for assessing  understanding inter-user variance in supervision quality and interaction behavior. Third, jointly training the tree updater  may further improve preference propagation in complex tasks.
+
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\linewidth]{figures/waterfall.pdf}
+    \caption{A conceptual waterfall model \citep{wiegers2013software} in Vibe coding. The interaction agent serves as a glue layer between users and code agents, enabling scalable oversight of code generation from non-expert supervision.}
+    \label{fig:waterfall}
+\end{figure}
+
+Finally, our work focuses on requirement-level oversight and does not fully study code-level supervision. As future work, the interaction agent could act as a proxy for user intent after a requirement document is established, supervising downstream coding agents by routing incorrect code to a development loop, and over-specified implementations back to requirement refinement, forming a waterfall-style process \citep{wiegers2013software}. We illustrate this relationship in Figure~\ref{fig:waterfall}, and hope to validate this paradigm for end-to-end software delivery in future.
+
+% In earlier sections, we extended human oversight in requirement generation, enabling non-expert users to collaboratively produce complex specifications with AI systems. As future work, we propose extending this oversight to the code level via the interaction layer. After jointly developing a requirement document $D$, the interaction layer serves as a proxy for user intent and supervises a downstream code-generation agent. Figure~\ref{fig:waterfall} illustrates this paradigm.
+
+% Compared to humans, the interaction layer can provide bettr oversight on code. If the generated code is incorrect or violates the requirements, it initiates a Development loop; if the code exceeds the specified requirements, it returns to the requirement loop. In this way, the interaction layer serves as a glue layer between users and code agents, enabling scalable oversight of code generation from non-expert supervision, analogous to a waterfall process \citep{wiegers2013software} in the era of vibe coding.
+
+
+
+
+
+
+
+
+% \section{Conclusion}
+% 在本文中，我们首先指出了随着模型代替人类承担越来越多的复杂任务，人类和模型之间的关系逐渐变成了弱监督者和强模型之间的关系。因此，我们提出了一种交互范式，使得在这个范式下 非专家人类能够引导和控制模型，产出专家级别的符合意图的结果。我们在网站需求合成的任务上进行测试，我们的策略明显优于其他基线。然后，我们对交互策略进行了强化学习训练，我们发现仅使用来自非专家人类的监督信号就可以提高系统的对齐效果，而使用专家的训练信号则能够进一步增强训练。
+
+
+
+
+\section*{Impact Statement}
+
+This work studies interactive alignment in settings where strong language models are guided by non-expert users over extended interactions, a scenario that is increasingly common in agentic and autonomous AI systems. As models take on more complex tasks, human users often function as weak supervisors, making it difficult to reliably convey intent through single-shot or unstructured feedback.
+
+By explicitly structuring interaction and accumulating user preferences over time, our approach enables non-expert users to more reliably steer strong models toward outcomes aligned with their intent. This can reduce reliance on expert supervision, lower the barrier to deploying AI systems in complex domains, and improve robustness in long-horizon tasks where direct human oversight is inherently limited.
+
+A potential risk of this approach is that accumulated preferences may amplify early misunderstandings or biases in user intent, leading the system to converge on an incorrect objective in a stable but undesirable way. Moreover, the framework is not intended for safety-critical domains where stronger guarantees and expert oversight are required.
+
+These considerations underscore the importance of transparent interaction design and appropriate deployment safeguards. We view this work as a step toward improving controllability and alignment under weak supervision, rather than a comprehensive solution to AI safety challenges.
+
+
+
+% Authors are \textbf{required} to include a statement of the potential broader
+% impact of their work, including its ethical aspects and future societal
+% consequences. This statement should be in an unnumbered section at the end of
+% the paper (co-located with Acknowledgements -- the two may appear in either
+% order, but both must be before References), and does not count toward the paper
+% page limit. In many cases, where the ethical impacts and expected societal
+% implications are those that are well established when advancing the field of
+% Machine Learning, substantial discussion is not required, and a simple
+% statement such as the following will suffice:
+
+% ``This paper presents work whose goal is to advance the field of Machine
+% Learning. There are many potential societal consequences of our work, none
+% which we feel must be specifically highlighted here.''
+
+% The above statement can be used verbatim in such cases, but we encourage
+% authors to think about whether there is content which does warrant further
+% discussion, as this statement will be apparent if the paper is later flagged
+% for ethics review.
+
+ 
+
+
+% In the unusual situation where you want a paper to appear in the
+% references without citing it in the main text, use \nocite
+\nocite{langley00}
+
+\bibliography{main}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\appendix
+\onecolumn
+
+
+
+
+\section{Additional Meterials on Experiments Setting}
+\subsection{Details about baseline settings}
+\label{app:baseline settings}
+% 我们使用两种baseline，一种是使用 vibe coding 框架来直接生成 prd，另一种是通过vanilla 多轮交互的形式。
+%vibe coding 框架： 我们使用docker 环境自动化完成这个过程。我们启动 docker 来运行对应的 vibe coding 框架，然后在其中模拟输入对框架的测试指令，使用自动接受模式要求模型生成结果。我们通过将 docker 内的文件系统保存，来获取最终的运行结果。因为我们无法在其中运行模拟用户的多轮交互，所以这部分测试以单轮形式展开
+% 直接多轮交互：这是一种模拟用户的进行多轮交互的做法，我们使用相同的模拟用户手段，只是去除了其中的对话策略。
+
+
+We use two baselines. The first baseline generates PRDs directly using the vibe coding framework, and the second baseline adopts a vanilla multi-turn interaction setting.
+
+Vibe coding framework: We automate this process using a Docker environment. Specifically, we launch Docker to run the corresponding vibe coding framework, then simulate test instructions as inputs to the framework and require the model to generate outputs under an automatic acceptance mode. The final execution results are obtained by saving the file system within the Docker container. Since we are unable to simulate multi-turn user interactions within this framework, this part of the evaluation is conducted in a single-turn setting.
+
+Direct multi-turn interaction: This baseline simulates a user engaging in multi-turn interactions. We use the same simulated user setup as above, but remove the dialogue strategy component.
+
+
+\subsection{Details about LLM judges}
+\label{app:llmjudge}
+In this section, we descibe the details about how we conduct the alignment evalution based on the PRDs.
+\paragraph{\textbf{The two-stage method.}} Given the complexity of a requirements document, we adopt a two-stage evaluation approach to assess alignment. First, the document is decomposed into five parts, each corresponding to one functional module. The evaluation rubrics are similarly organized into five modules, enabling each component to be assessed independently. Finally, the module-level scores are aggregated to obtain the overall evaluation result. The two stage prompts are in Appendix~\ref{app:evaluation_prompts}
+
+
+\textbf{Rubrics.} We use LLM to generate rubrics for every data points. The rubrics are also formatted in tree-structure to enable the two-stage evaluation. The rubrics generation prompts is present it Appendix~\ref{app:rubrics gen}. The following is an example for the rubrics.
+
+\begin{lstlisting}[language={},label={app:rubrics-tree},basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,xleftmargin=0.02\textwidth,xrightmargin=0.02\textwidth]
+"rubrics_tree": [
+    {
+          "Product Overview": {...
+          },
+          "Core Functional Modules": {
+            "description": "Verify a complete set of mathematical tool modules, covering core functionalities such as graphing, 3D computation, geometry tools, professional calculators, and testing and assessment",
+            "submodules": {
+              "Graphing Calculator Module": {
+                "description": "Verify comprehensive functionality that helps users intuitively understand functional relationships and mathematical concepts through visual graph representations",
+                "features": [
+                  "Support real-time graphing for multiple types of functions",
+                  "Provide dynamic interactive experiences such as sliders, animations, labels, and customizable graph window settings",
+                  "Support data analysis capabilities including statistical functions, tabular data processing, and trend analysis",
+                  "Provide collaboration and sharing mechanisms such as saving projects, link sharing, and gallery displays",
+                  "Provide learning resource management features including folder organization, example libraries, and inspiration exploration"
+                ]
+              },
+              "3D Calculator Module": {
+                "description": "...",
+                "features": [
+                  ...
+                ]
+              },
+              "Geometry Tools Module": {
+               "description": "...",
+                "features": [
+                  ...
+                ]
+              },
+          "Non-functional Requirements": {
+            "...": "Content omitted for brevity"
+          }
+]
+\end{lstlisting}
+
+
+
+\paragraph{\textbf{Validation.}} To validate the effectiveness of LLM-judge, we compare the three LLMs' ageements on 80 evalution tasks. The results inidicates that the three popular LLM are consistent with each other.
+
+\begin{table}[H]
+\centering
+\caption{Pairwise agreement scores among different models}
+\begin{tabular}{lccc}
+\hline
+        & GPT-5 & Qwen3-235B-A22B-Instruct-2507 & claude-sonnet-4.5 \\
+\hline
+GPT-5   & 1     & 0.874  & 0.901  \\
+Qwen3-235B-A22B-Instruct-2507  & 0.874 & 1      & 0.897  \\
+claude-sonnet-4.5 & 0.901 & 0.897  & 1      \\
+\hline
+\end{tabular}
+
+\label{tab:pairwise-agreement}
+\end{table}
+
+Besides, we hired human annotators to label the reasonableness of the rubrics. Across all the rubrics in the test set (the same 80 test cases as the above), only 0.5\% of them are labled as unreasonable, which along with the LLM agreement results, indicates the validation of our LLM-judge methods.
+
+
+
+\subsection{Details about user simulation}
+\label{app:user simulation}
+The prompt we used to simulate non-expert users is presented in Appendix~\ref{app:user prompt}. In the user simulator experiments, we use \texttt{Deepseek R1} as the simulation model, because we find it as the best one in role playing and instruction following in the task. When we use claude model or gpt-5, both of them cannot perform as the non-expert to say `DontCare' or `DontKnow'.
+
+We validate the agreement of user simulation with human annotators on a 272 sample test set. Given a prd document as the implicit intention and the imcomplete dialogue, the human annotators are asked to complete the interactions with models in one turn. The agreement is calculated on whether the user simulation model has the same answer with the human annotator. Because we has constrained the answer to closed-form (e.g. rankings or selections), the agreement could be easily judged.
+
+The results are:
+\begin{itemize}
+  \item The agreement between the human annotators is 0.722. The agreed parts are used as the gold standard to evaluate the user simulation models.
+  \item The agreement between Deepseek R1 and human annotators is 0.677.
+  \item In the RL phase, we trained a SFT model as the user simulator for the rollout effiency. The agreement between this model and human annotators is 0.707.
+  
+\end{itemize}
+
+
+
+
+
+\subsection{Details about RL training}
+\label{app:rl app}
+
+
+The cold-start model was fine-tuned on 700 samples with a learning rate of $5e-5$. For the RL experiments, we used a learning rate of $2e-6$ and a training batch size of 8, with a clipping range of $[0.8, 1.2]$. Unless otherwise specified, we set the number of PPO epochs to 1 and the rollout size to 4, which achieved the best empirical performance in our experiments. 
+
+As for training algorithm, we use a variant to GRPO \citep{shao2024deepseekmath}. Compared to direct GRPO  this is better suited to multi-turn traces with non-shared prefixes and small per-prompt groups, avoiding unstable per-group rescaling while still supporting dense token-level rewards via masked returns and global whitening. The following shows how we calculate the advantage:
+% \begin{equation}
+%   A_{i,t} = \left(\frac{R_{i,t} - \mu_{\mathcal{B}}}{\sigma_{\mathcal{B}} + \epsilon}\right) \mathbb{1}[t \le L_i],
+% \end{equation}
+% \begin{equation}
+%   \nabla_{\theta} J(\theta) \approx \frac{1}{|\mathcal{B}|} \sum_{i,t} A_{i,t} \, \nabla_{\theta} \log \pi_{\theta}(a_{i,t} \mid s_{i,t}).
+% \end{equation}
+
+% We compute token-level advantages by globally whitening the masked returns:
+% \begin{equation}
+% A_{i,t}
+% =
+% \frac{R_{i,t} - \mu_{\mathcal{B}}}{\sigma_{\mathcal{B}} + \epsilon}
+% \;\mathbb{1}[t \le L_i],
+% \end{equation}
+
+\begin{align}
+\tilde r_i 
+&= r_{i,T_i} \;-\; \frac{1}{|g(i)|}\sum_{j \in g(i)} r_{j,T_j}, \\
+A_{i,t}
+&= \operatorname{Whiten}\!\left(
+\sum_{t' \ge t} \tilde r_i \,\mathbb{I}[t' = T_i]
+\right)\cdot \mathbb{I}[t \le T_i].
+\end{align}
+
+\noindent\textbf{Notation.}
+$i$ indexes sequences in the batch; $g(i)$ denotes the prompt group of sequence $i$;
+$T_i$ is the last non-masked (EOS) token position of sequence $i$;
+$r_{i,T_i}$ is the terminal token-level reward;
+$\mathbb{I}[\cdot]$ is the indicator function corresponding to the EOS mask;
+$\operatorname{Whiten}(\cdot)$ denotes batch-level return normalization as in REINFORCE++ \citep{hu2025reinforce++}.
+
+
+
+
+Figure~\ref{app:training_dynamics_fig} compares the effects of different PPO epochs and rollout sizes on the training reward. 
+% 我们还对三种奖励进行了具体的消融实验，证明了我们提出的三种 reward 能够逐步提高模型的性能。
+
+Besides, we present the ablation study on the reward, the results in Table~\ref{app:ablation reward}.
+
+\begin{table*}[!tb]
+
+\centering
+\small
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.15}
+\caption{Ablation Study for the reward design. The three kinds of reward can boost the training separately.}
+\label{tab:app_reward_ablation}
+
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc|cccccc}
+\toprule
+& \multicolumn{6}{c}{\textbf{Same as training}}
+& \multicolumn{6}{c}{\textbf{GPT-5 test-time}} \\
+\cmidrule(lr){2-7}\cmidrule(lr){8-13}
+
+& \texttt{M1} & \texttt{M2} & \texttt{M3} & \texttt{M4} & \texttt{M5} & Avg.
+& \texttt{M1} & \texttt{M2} & \texttt{M3} & \texttt{M4} & \texttt{M5} & Avg. \\
+\midrule
+
+SFT
+& 0.606 & 0.554 & 0.539 & 0.524 & 0.436 & 0.532
+& 0.622 & 0.641 & 0.642 & 0.610 & 0.565 & 0.616 \\
+
+User Reward only
+& 0.628 & 0.590 & 0.522 & 0.496 & 0.443 & 0.536
+& 0.624 & 0.682 & 0.643 & 0.627 & 0.571 & 0.629 \\
+
+User+Outcome Reward
+& 0.598 & 0.558 & 0.524 & 0.526 & 0.452 & 0.532
+& 0.634 & 0.705 & 0.672 & 0.665 & 0.601 & 0.655 \\
+
+User+Outcome+Progressive Reward
+& \textbf{0.645} & \textbf{0.595} & \textbf{0.554} & \textbf{0.525} & \textbf{0.475} & \textbf{0.559}
+& \textbf{0.661} & \textbf{0.712} & \textbf{0.657} & \textbf{0.646} & \textbf{0.618} & \textbf{0.659} \\
+\bottomrule
+\end{tabular}%
+}
+\label {app:ablation reward}
+\end{table*}
+
+
+
+
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.96\textwidth]{figures/parameter_comparison_RL.pdf}
+    \caption{RL training curves with difference training parameters. Left: user reward only. Right: full reward.}
+    \label{app:training_dynamics_fig}
+\end{figure*}
+
+
+\newpage
+\section{More Cases}
+% In this section, we present more cases in interaction and the final generated requirements.
+
+\subsection{Real user cases}
+\label{app:real user case}
+% In this section, we present examples from the real user. In this case study, we find the current ``vibe coding" framework often ask hard questions or open questions that hard to be answered, and their interactions are easily ended in a few turns. In contrast, ours perform low-burden interaction. Further, we present the prd comparisons. The one from \texttt{codex} doesn't mention the `globally' feature, which is involved in the interaction, but ours did. Further, ours is more detailed. The following Figure~\ref{appfig:user cases2} makes the comparison and showcases a partial document generate by the non-expert user.
+
+
+% In this section, we present examples from the real user. 
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\linewidth]{figures/user_case3.pdf}
+    \caption{Case1: The query is about developing tools that can monitor the access speed of a website and making in-time notifications. Upper: real user interaction and the part of generated PRD. 2) Below: The oriented part and the satisfied rubrics.}
+    \label{appfig:user cases3}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.96\linewidth]{figures/user_case4.pdf}
+    \caption{Case2: The query is about developing school website. Upper: real user interaction and the part of generated PRD. 2) Below: The oriented part and the satisfied rubrics.}
+    \label{appfig:user cases4}
+\end{figure}
+
+
+\newpage
+
+\subsection{Website generation cases}
+\label{app:web cases}
+We use \texttt{claude-opus-4.5} in \texttt{claude code} as the ``vibe coding" tool to generate the downstream website based on the prds. Figure~\ref{appfig:web cases} shows that we can provide more aligned outputs in the web-dev task.
+% \vspace{-2cm}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/web_cases.pdf}
+    \caption{Left: website cases from the baseline. Right: website cases from our interaction framework.}
+    \label{appfig:web cases}
+\end{figure}
+
+\newpage
+\subsection{PRD full cases}
+\label{app:expert prd cases}
+
+
+
+\begin{appendixcase}[Case A: Websites for sharing templates]
+\textbf{Initial Query}: I want to create a website that allows people who want to build websites but lack technical skills to easily find beautiful website templates. Users can preview what the templates look like, and if they like them, they can directly use them on their own websites. The whole process should be simple and fast.\\
+
+
+\textbf{PRD as intent}:
+
+
+\#\# Product Overview
+
+**Website Demos (websitedemos.net)** is a professional template directory and demo platform for WordPress users. The product aims to help users quickly build professional websites by providing 300+ carefully selected complete website templates, lowering the barrier to entry and improving website creation efficiency. The product covers multiple industry scenarios such as business, portfolios, blogs, e-commerce, education, and communities, providing ready-to-use website solutions for different user groups.
+
+**Product Value Proposition:**
+
+- Reduce website building costs and technical barriers for users
+
+- Provide professional-grade design templates to enhance website quality
+
+- Accelerate website launch time through standardized templates
+
+- Build a complete WordPress ecosystem solution
+
+\#\# Core Functional Modules
+
+\#\#\# 1. Intelligent Template Catalog System
+
+**Product Value:** Through precise categorization and intelligent filtering, it helps users quickly find the most suitable templates, improving selection efficiency.
+
+- Browse by industry category (Business, Portfolio, Ecommerce, Blog, Community, Multipurpose, etc.)
+
+- Filter by page builder (Elementor, Spectra/Gutenberg)
+
+- Filter by product type (including premium templates)
+
+- Intelligent sorting function (Popular/Latest), recommending based on user preferences
+
+\#\#\# 2. Immersive Preview Experience
+
+**Product Value:** Provides a realistic website preview experience, reducing user decision-making costs and improving template selection accuracy.
+
+- Each template offers a complete Live Preview function.
+
+- Template cards display core selling points and usage descriptions.
+
+- Supports instant preview of the entire site's style and page structure. Responsive preview support ensures multi-device compatibility.
+
+\#\#\# 3. User Onboarding and Support System
+
+**Product Value:** Reduces user learning curve and increases success rate through standardized process guidance.
+
+- Provides a visual "3-step onboarding" process guide (Preview → Import → Personalization → Deployment)
+
+- Complete FAQ support system
+
+- Deeply integrated import solution with Starter Templates plugin
+
+- Detailed user documentation and best practice guidelines
+
+\#\#\# 4. Template Import and Deployment Service
+
+**Product Value:** Provides one-click import capability, achieving a seamless experience from template selection to website deployment.
+
+- Imports entire website templates via Starter Templates plugin.
+
+- Automatically identifies and installs required dependent plugins.
+
+- Supports flexible import of single-page templates and entire website templates.
+
+- Ensures template functionality integrity and compatibility.
+
+\#\# Non-functional Requirements
+
+\#\#\# Performance Requirements
+
+**Product Value:** Enhances user experience and website competitiveness through superior performance.
+
+- Lightweight design ensures fast loading.
+
+- Optimized resource management improves page response speed. Efficient Template Preview Mechanism
+
+\#\#\# Compatibility Requirements
+
+**Product Value:** Ensures broad device and platform compatibility, expanding user reach
+
+- Comprehensive responsive design support
+
+- Optimized for desktop, tablet, and mobile platforms
+
+- Guaranteed compatibility with mainstream browsers
+
+\#\# User Experience Design
+
+\#\#\# Core User Journey
+
+**Product Value:** Maximizes user conversion rates and satisfaction through optimized user flows
+
+**Browsing and Discovery Path:**
+
+Enter Template Catalog → Smart Filtering and Positioning → Preview Experience → Compare and Select → Confirm Template
+
+**Usage and Implementation Path:**
+
+Select Template → Read Import Guide → Install Supporting Plugins → One-Click Template Import → Personalization → Website Launch
+
+\#\# Business Rules
+
+\#\#\# Template Import Guidelines
+
+**Product Value:** Ensures the best user experience through a standardized import process.
+
+- Recommends importing the entire website template into a new or blank WordPress environment to avoid configuration conflicts.
+
+- Supports importing single-page templates into existing websites for flexibility.
+
+- Automatically detects and prompts for the installation of necessary dependency plugins.
+
+- Ensures the integrity and consistency of template functionality after import.
+
+\#\#\# Product Tiering and Pricing Strategy
+
+**Product Value:** Meets different user needs and realizes business value through differentiated product tiers.
+
+- Free Templates: Provides basic functionality, lowering the barrier to entry for users.
+
+- Premium Templates: Provides advanced features and design to meet the needs of professional users.
+
+- Clear Premium labeling ensures users fully understand product benefits.
+
+\#\#\# Ecosystem Integration
+
+**Product Value:** Providing users with a complete website building solution through open ecosystem collaboration.
+
+- Deep integration with the official WordPress ecosystem
+
+- Support for mainstream page builders (Elementor, Gutenberg, etc.)
+
+- Compatibility with popular themes and plugin ecosystems
+
+- Based on the open-source Starter Templates plugin, ensuring transparency and scalability.
+
+
+\end{appendixcase}
+
+\begin{appendixcase}[Case B: Websites for Spanish news]
+\textbf{Initial Query} :I want to create a Spanish-language news website, primarily targeting readers in Peru and other Latin American regions, providing news and information on politics, economics, society, and other aspects. I hope to establish an authoritative and credible media brand, offering readers truthful and reliable news content in an era of information overload.
+
+\textbf{PRD as intent}:
+
+\# La República Digital News Platform Product Requirements Document
+
+\#\# Product Overview
+
+\#\#\# Core Value Positioning
+
+La República digital news platform is committed to providing Spanish-speaking readers with authoritative, real-time, and diversified news information services. As a digital extension of Peruvian mainstream media, the platform builds a comprehensive news ecosystem, creating an information value chain integrating real-time news, in-depth reporting, fact-checking, and data journalism to meet the needs of modern readers for high-quality news content.
+
+
+\#\#\# Target User Group
+
+- Adult readers interested in current affairs and politics
+
+- Professionals seeking in-depth analysis
+
+- Rational users pursuing information authenticity
+
+- Spanish-speaking users across regions
+
+\#\# Core Functional Modules
+
+\#\#\# 1. Multi-Channel News Browsing System
+
+**Value-Oriented**: Building comprehensive information coverage to meet diverse user information needs.
+
+- Vertical channels covering politics, economics, society, world affairs, science, sports, entertainment, and technology.
+
+- Thematic aggregation pages for in-depth exploration of important issues.
+
+- Personalized content recommendations to enhance user engagement.
+
+\#\#\# 2. Live Streaming and Video Content (EN VIVO)
+
+**Value-Oriented**: Creating an immersive news experience and enhancing user engagement.
+
+- Live Broadcast of Major Events
+
+- Embedded Video Playback Experience
+
+- Multimedia Content Integration, Enriching Information Delivery Methods
+
+\#\#\# 3. Professional Fact-Checking System (Verificador)
+
+**Value Orientation**: Building Media Credibility and Combating the Spread of Misinformation
+
+- Adherence to International Fact-Checking Network (IFCN) Standards
+
+- Independent Fact-Checking Process and Transparent Correction Mechanism
+
+- Building Core Competitive Advantages for the Platform
+
+\#\#\# 4. Data Journalism and Feature Production (Datos LR)
+
+**Value Orientation**: Enhancing Content Professionalism through Data-Driven In-Depth Reporting
+
+- Data Visualization of Complex Information
+
+- Interactive Feature Projects
+
+- Enhancing User Understanding of Important Issues
+
+
+\#\# Non-functional Requirements
+
+\#\#\# Content Quality Assurance
+
+- **Editorial Independence**: Adhering to a non-partisan stance to ensure the objectivity and impartiality of news reporting
+
+- **Multi-proofreading Mechanism**: Establishing a rigorous content review process to ensure information accuracy
+
+- **Transparent Correction Process**: Establishing an open and timely error correction mechanism to maintain platform credibility
+
+\#\#\# Platform Reliability and Stability
+
+- **High Availability**: Ensuring stable 24/7 platform operation and supporting timely release of breaking news
+
+- **Multi-channel Distribution**: Ensuring broad content reach through multiple channels
+
+- **Real-time Update Capability:** Supports instant publishing and updating of news content.
+
+\#\# User Experience Design
+
+\#\#\# Information Architecture Design
+
+**Value Oriented:** Reduces the cognitive cost for users to acquire information and improves browsing efficiency.
+
+- A clear channel navigation system allows users to quickly locate target content.
+
+- Homepage aggregation design balances the display of the latest news and key topics.
+
+- Bottom link index provides a complete site map.
+
+\#\#\# Content Presentation Optimization
+
+**Value Oriented:** Enhances content attractiveness and readability through visual design.
+
+- Card-style layout with high-quality images enhances the visual experience.
+
+- Standardized content elements (author, timestamp, category tags).
+
+- Prominent display of topical content guides users to read in depth.
+
+\#\#\# Subscription Experience Optimization
+
+**Value Oriented:** Simplifies the subscription process and improves user conversion rates.
+
+- Tiered subscription options (theme, frequency personalization).
+
+- Clear subscription value descriptions.
+
+- Convenient subscription management functions.
+
+\#\#\# Multi-Platform Adaptation
+
+**Value Oriented:** Ensures a consistent user experience across different devices.
+
+- Responsive design adapts to mobile reading.
+
+- Content Optimization and Display on Social Media Platforms
+
+- Cross-Platform User Identity and Preference Synchronization
+
+\#\# Business Rules
+
+\#\#\# Content Copyright and Intellectual Property Protection
+
+**Value Orientation**: Protecting Core Platform Assets and Maintaining Commercial Value
+
+- All original content is protected by copyright; unauthorized use is prohibited.
+
+- Exclusive protection of brand identity and keywords.
+
+- Clear content usage boundaries and authorization mechanisms.
+
+\#\#\# User Behavior Guidelines
+
+**Value Orientation**: Creating a Healthy Information Consumption Environment
+
+- Prohibiting the use of the platform for illegal or inappropriate purposes.
+
+- Establishing user behavior guidelines to maintain community order.
+
+- Transparent violation handling mechanism.
+
+\#\#\# Data Collection and Usage Guidelines
+
+**Value Orientation**: Maximizing Data Value While Maintaining Compliance
+
+- Clearly defining the scope of data collection and the purpose of use.
+
+- Providing users with control over their data (viewing, modifying, deleting).
+
+- Establishing a data security incident emergency response mechanism.
+
+\#\#\# Subscription and Payment Rules
+
+**Value Orientation**: Building a Sustainable Business Model
+
+- Tiered content access permission design.
+
+- Transparent subscription terms and cancellation policies.
+
+- Regionalized service delivery strategy.
+
+\#\#\# Reader Interaction and Feedback Mechanism
+
+**Value Orientation**: Establishing Open and Transparent Media-Public Relations
+
+- Multi-channel reader feedback collection (email, WhatsApp)
+
+- Identity verification requirements for tip-offs
+
+- Commitment to timely response and handling of reader requests
+\end{appendixcase}
+
+\subsection{Interaction progress case}
+\label{app:interaction cases}
+
+In this section, we present a part of interactions case as example.
+
+When receiving the initial user query, the system first decompose the task into a requirement tree like the following:
+
+\begin{lstlisting}[language={},label={app:rubrics-tree},basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,xleftmargin=0.02\textwidth,xrightmargin=0.02\textwidth]
+"Requirement Tree": {
+  "Product Overview": {
+  "description": "Define the product positioning and strategic objectives of the Spanish-language news website",
+  "node_type": "core_module",
+  "is_processed": false,
+  "submodules": {
+    "Product Positioning": {
+      "name": "Product Positioning",
+      "description": "Define the website's position in the Latin American news media market",
+      "node_type": "sub_module",
+      "features": [
+        "Target audience definition",
+        "Differentiation from competitors",
+        "Brand value proposition",
+        "Core competitive advantages"
+      ],
+      "is_processed": false
+    },
+    "Market Analysis": {
+      "description": "Analyze the current news media market in Peru and Latin America",
+      "node_type": "sub_module",
+      "features": [
+        "Target market size",
+        "User reading behavior analysis",
+        "Competitor analysis",
+        "Market opportunity identification"
+      ],
+      "is_processed": false
+    },
+    "Business Model": {
+      "description": "Define the website's monetization model and revenue streams",
+      "node_type": "sub_module",
+      "features": [
+        "Advertising revenue model",
+        "Subscription strategy",
+        "Content licensing partnerships",
+        "Other revenue channels"
+      ],
+      "is_processed": false
+    }
+  }
+},
+"Core Functional Modules": {
+  "description": "Design of the main functional architecture of the news website",
+  "node_type": "core_module",
+  "is_processed": false,
+  "submodules": {
+    "Content Management System": {
+      "description": "Workflow for news content production, editing, and publishing",
+      "node_type": "sub_module",
+      "features": [],
+      "is_processed": false,
+      "submodules": {
+        "Content Creation": {
+          "name": "Content Creation",
+          "description": "Functions for news reporting, editing, and content creation",
+          "node_type": "sub_module",
+          "features": [
+            "Article editor",
+            "Multimedia upload",
+            "Draft saving",
+            "Collaborative editing",
+            "Content templates",
+            "Editorial calendar management",
+            "Data visualization editor"
+          ],
+          "is_processed": false
+        },
+        "Content Review": {
+          "description": "Review mechanisms to ensure content quality and regulatory compliance",
+          "node_type": "sub_module",
+          "features": [
+            "Multi-level review workflow",
+            "Fact-checking tools",
+            "Sensitive keyword detection",
+            "Legal compliance checks"
+          ],
+          "is_processed": false
+        },
+        "Content Publishing": {
+          "description": "Functions for content publishing and management",
+          "node_type": "sub_module",
+          "features": [
+            "Scheduled publishing",
+            "Multi-platform synchronization",
+            "Version control",
+            "Content category management"
+          ],
+          "is_processed": false
+        }
+      }
+    }
+  }
+ ...<Omitted for brevity>...
+}
+
+}
+\end{lstlisting}
+
+
+The interaction system do depth-travesal on the tree find the first node (e.g. ``product positioning'' in this cases)
+
+
+\begin{tcolorbox}[
+  colback=gray!5,
+  colframe=gray!50,
+  title=Human--Model Dialogue
+]
+\textbf{Model:}  
+
+Question 1: Please imagine our ideal reader. Which of the following profiles best represents the group you want to prioritize?
+
+A. Professionals focused on current affairs: such as government officials, lawyers, academics, and mid-to-senior corporate managers. They need in-depth, rigorous, data-driven analysis to support decision-making or academic research, and they have very high standards for information reliability.
+
+B. A younger generation passionate about public issues: such as university students, young professionals, and social activists. They are intellectually engaged, care about social justice, the environment, and culture, consume news via social media, and enjoy interaction and diverse perspectives.
+
+C. General readers seeking reliable information: people from all walks of life who may not deeply study complex political or economic issues, but are tired of clickbait and fake news and want a place to quickly, clearly, and accurately understand major events.
+
+You may choose one primary group or rank them by priority. This decision will directly influence our subsequent choices regarding content depth, tone, and distribution channels.
+
+\vspace{0.4em}
+\textbf{Human:}  
+[A \textgreater C \textgreater B]- Conf[0.8]
+
+
+\textbf{Model:}  
+
+Question 2: To build a strong competitive advantage and appeal most effectively to professionals, where should we primarily invest our content resources?
+
+A. Data-driven journalism: Use data analysis and visualizations to interpret news. In-depth reports are grounded in rigorous data models and statistical analysis, providing quantitative decision support rather than purely narrative reporting.
+
+B. Investigative journalism: Build a brand known for hard-hitting investigations, investing significant time and resources in long-term original reporting that exposes corruption, abuse of power, or issues others fail to reach, establishing unmatched credibility.
+
+C. Expert-led analysis: Develop an exclusive network of leading regional scholars, former government officials, and industry leaders, featuring their in-depth analysis and forecasts on current affairs and future trends.
+
+D. Cross-regional comparative perspective: Focus on systematic, cross-country comparisons of shared issues across Latin America (e.g., pension reform, digital economy policy, energy transition), offering a broader, more strategic viewpoint.
+
+You may choose one core direction or rank them. Your decision will guide our content strategy and team building.
+
+
+\vspace{0.4em}
+\textbf{Human:}  
+[A]- Conf[0.9]
+\end{tcolorbox}
+
+
+After rounds of interaction, the model will ends the interaction with output the current summary:
+
+\begin{tcolorbox}[
+  colback=gray!5,
+  colframe=gray!50,
+  title=The preference accumulated
+]
+
+\#\# Product Positioning - Functional Specification
+
+**1. Target Audience**
+
+- **Primary:** Public-affairs-focused professionals (e.g., government officials, lawyers, academics, analysts, senior managers) who require high-quality, in-depth, objective information for decision-making or research.
+
+- **Secondary:** General readers seeking clear, reliable news and tired of clickbait and information noise.
+
+**2. Differentiation Strategy**
+
+- **Core focus: Data-driven journalism.**
+  News is interpreted through data analysis and visualization rather than opinion-led narratives. In-depth reporting is grounded in verifiable data and delivers quantitative insights.
+
+**3. Brand Value Proposition**
+
+- **Slogan:** “Verifiable truth. Every story backed by data.” \\
+- **Promise:** To provide data-validated, source-transparent reporting that strengthens trust in journalism.
+
+**4. Core Advantage**
+
+* Strong data analysis combined with professional, interactive data visualization.
+* Priority on extracting insights from public datasets (e.g., government, international organizations, financial markets).
+
+\#\#\# Key Implementation Notes
+
+- Build a cross-disciplinary team of data-savvy journalists and journalist-minded data analysts.
+
+- Ensure transparent data sourcing and basic chart interactivity to support credibility and user trust.
+
+
+\end{tcolorbox}
+
+
+Then this would be used to update a new requirement tree, and this node would be marked as ``completed''.
+
+\begin{lstlisting}[language={},label={app:rubrics-tree},basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,xleftmargin=0.02\textwidth,xrightmargin=0.02\textwidth]
+"Requirement Tree:"{
+  "Product Overview": {
+    "description": "Define the product positioning and strategic objectives of the Spanish-language news website",
+    "node_type": "core_module",
+    "is_processed": false,
+    "submodules": {
+      "Product Positioning": {
+        "description": "Define the website's position in the Latin American news media market",
+        "node_type": "sub_module",
+        "features": [
+          "Target audience definition",
+          "Differentiation from competitors",
+          "Brand value proposition",
+          "Core competitive advantages"
+        ],
+        "is_processed": true
+      },
+      ------
+
+      # The "Market Analysis" part is deleted because the User preference
+
+      ------
+      "Business Model": {
+        "description": "Define the website's monetization model and revenue streams",
+        "node_type": "sub_module",
+        "features": [
+          "Advertising revenue model",
+          "Subscription strategy",
+          "Content licensing partnerships",
+          "Other revenue channels"
+        ],
+        "is_processed": false
+      }
+    }
+  },
+  ...<Omitted for brevity>...
+}
+\end{lstlisting}
+
+% \subsection{Generated PRD cases}
+% \label{app:Generated PRD cases}
+
+
+\newpage
+\section{Prompts in the Framework}
+\label{app:prompts}
+\subsection{Interaction Model System Prompt}
+\begin{lstlisting}[language={},basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,xleftmargin=0.05\textwidth,xrightmargin=0.05\textwidth
+  ]
+
+You are an experienced developer and product manager. Based on the user's original intent, design an advanced and complete solution for the software the user wants to build.
+Your task is to guide the user through professional questioning across multiple rounds of interaction to help them clarify their thinking, make key decisions, uncover complete product requirements, and ultimately produce a professional, actionable product document.
+
+# Current Focus
+You are conducting an in-depth discussion specifically about the "{node.name}" feature.
+Feature path: {context_path}
+Feature description: {node.description}
+
+# Discussion Goals
+Deeply understand the user's concrete requirements for "{node.name}", typically including:
+{chr(10).join(f'- {func}' for func in all_features) if all_features else "- Specific implementation requirements for this feature"}
+You may adjust this list at any time based on the user's needs and preferences as the interaction proceeds.
+
+# Full Requirement Context from the User
+{original_query}
+
+# Role Requirements
+1. Discuss only topics related to "{node.name}" and avoid other features.
+2. Ensure alignment and advancement: your plan must satisfy all of the user's requirements (both initially stated and later clarified) and also be sufficiently advanced.
+3. Ask key questions: after forming a plan, ask the user to decide on the essential choices. For requirements that are already clear or for cases where you truly know the optimal choice, you do not need user confirmation.
+4. After fully understanding the needs, output a detailed specification for this feature.
+5. Upon completion, output "[End of Feature Discussion]".
+
+# To best match the user's needs
+1. If the user responds with "DontCare", it indicates the current topic exceeds the user's scope or level of concern. Skip that part or adjust the questioning angle.
+2. The user will express a confidence score for each decision (between 0 and 1, where 1 means very certain and 0 means very uncertain). If confidence is low, adapt the discussion with stronger guidance and more explanation.
+
+# To improve dialogue quality and supervise-ability, follow these methods to reduce decision difficulty:
+1. Iterative clarification: do not try to cover everything at once. Discuss module by module according to the product's logical structure to reduce supervision burden while learning user preferences.
+2. Explanation method: when a technical or product decision is needed, do not simply state "we will use XX technology." Instead, explain in user-understandable terms to support confident decision-making.
+3. If the user answers "DontKnow", your question is likely too technical. Provide further explanation.
+4. Reduce response difficulty: use choice- or ranking-style questions to lower cognitive load.
+
+# Efficient Questioning Strategy
+
+  ## Metacognitive Check
+  - Ask as needed: "Do these directions cover what you care about?"
+  - If not, proactively adjust the dimensions of questioning.
+  
+  ## Feature Positioning Strategy
+  - Use dimension-based choices to quickly locate user focus: "For this feature, what matters more to you: efficiency, quality assurance, ease of use, cost control, or other?"
+  - Plan subsequent discussion according to the selected dimension.
+  - If the user chooses "DontCare", your dimensions may not cover their true concern -- try a different angle.
+  
+
+# Output the Feature Specification After Discussion
+After the discussion, summarize and output the specification for this feature based on the conversation and your decisions. Keep it concise but comprehensive, and do not add points beyond what was discussed. Use the following format:
+
+## {node.name} Feature Specification
+
+### Overview (required)
+[Describe the purpose of the current module]
+
+### Core Subfeatures (required)
+[Describe the core subfeatures in detail]
+
+### Key Technical Points (if discussed)
+[Key implementation notes]
+
+### UI Elements (if discussed)
+[Description of UI elements]
+
+### Interaction Logic (if discussed)
+[Description of interaction logic]
+
+[End of Feature Discussion]
+
+
+\end{lstlisting}
+
+
+\subsection{Tree Initialization Prompt}
+\begin{lstlisting}[
+language={},
+basicstyle=\ttfamily\footnotesize,
+breaklines=true,
+columns=fullflexible,
+xleftmargin=0.05\textwidth,
+xrightmargin=0.05\textwidth
+]
+
+
+You will act as a senior Product Director. Given a user's requirement, you are expected to conduct a requirements interview with the user. Ultimately, you will confirm a requirements document together with the user. This document will include the following sections:
+
+- Product Overview
+- Core Functional Modules
+- Non-functional Requirements
+- User Experience Design
+- Business Rules
+
+The purpose of this task is to design a comprehensive interview planning framework that covers all relevant aspects involved in the requirements interview, while remaining aligned with the user's original intent.
+
+User requirements may be highly ambiguous. You are expected to leverage your understanding of the current industry landscape to expand and refine what the user intends to build, and to produce an interview plan that is as complete and systematic as possible.
+
+Objective:
+You need to output an interview planning design corresponding to the user's requirement. The design should support a multi-level hierarchical structure:
+- Each module may contain submodules
+- Submodules may further contain more fine-grained elements
+
+The highest-level modules must correspond to the main sections of the requirements document:
+- Product Overview
+- Core Functional Modules
+- Non-functional Requirements
+- User Experience Design
+- Business Rules
+
+The output must follow the structured JSON format shown below:
+
+{
+    "funcs": {
+        "Module 1": {
+            "description": "Description of Module 1",
+            "submodules": {
+                "Submodule 1.1": {
+                    "description": "Description of Submodule 1.1",
+                    "features": [
+                        "Specific feature 1.1.1",
+                        "Specific feature 1.1.2"
+                    ]
+                },
+                "Module 1.2": {
+                    "description": "Description of Submodule 1.2",
+                    "submodules": {
+                        "Submodule 1.2.1": {
+                            "description": "Description of a deeper-level module",
+                            "features": [
+                                "Specific feature 1.2.1.1",
+                                "Specific feature 1.2.1.2"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "Module 2": {
+            "description": "Description of Module 2",
+            "features": [
+                "Direct sub-feature 2.1",
+                "Direct sub-feature 2.2"
+            ]
+        }
+    }
+}
+
+\end{lstlisting}
+
+
+
+\subsection{Tree Updating Prompt}
+\begin{lstlisting}[language={},basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,xleftmargin=0.05\textwidth,xrightmargin=0.05\textwidth]
+
+# Plan Update Task
+
+You are a product development assistant. Based on the completed interaction results, and the user's original request, further learn the user's intent and assess whether the subsequent feature plan needs adjustment.
+
+Our requirement for the plan is: while aligning with the user's preferences and intent, keep the plan advanced and complete.
+
+## Original User Request
+{original_query}
+
+## Recently Completed Feature Module
+**Module Name**: {completed_node.name}
+**Module Path**: {completed_node.path}
+**Module Description**: {completed_node.description}
+
+{accumulated_context}
+
+## Current Full Feature Plan
+```json
+{json.dumps(current_plan, ensure_ascii=False, indent=2)}
+```
+
+## Remaining Unresolved Feature Modules
+{remaining_node_info}
+
+## Task Instructions
+Based on the accumulated interaction results, assess whether to adjust the subsequent development plan. You may:
+
+1. Add new features: if a new module is needed to better meet user needs or improve completeness
+2. Remove features: if certain features or subfeatures have become unnecessary
+3. Modify features: adjust descriptions, subfeatures, or structure of existing features
+4. Keep unchanged: if the current plan is still appropriate
+
+## Output Format Requirements
+If changes are needed, output the revised full plan JSON (same format as the current plan).
+If no changes are needed, output only: `NO_CHANGES_NEEDED`
+
+The revised JSON should:
+- Keep the top-level titles unchanged unless the user explicitly asks; do not add or remove them
+- Keep completed modules unchanged (is_processed: true)
+- Ensure the new plan is logically sound and clearly structured
+- Maintain similar overall complexity to the original plan; over-detailing is not our goal
+
+Please start your analysis and output the result:
+
+\end{lstlisting}
+
+\subsection{Document Generator Prompt}
+\begin{lstlisting}[language={},basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,xleftmargin=0.05\textwidth,xrightmargin=0.05\textwidth]
+
+You are a seasoned Product Director who needs to synthesize the detailed discussion results of multiple feature modules into a complete, professional Product Requirements Document (PRD).
+
+# Original User Request
+{original_query}
+
+{module_context}
+
+# Detailed Specifications of Each Feature Module
+{combined_specs}
+
+# Task Requirements
+1. Based on the specifications of each feature module, generate a complete PRD. A PRD typically includes:
+  - Product Overview
+  - Core Feature Modules
+  - Non-Functional Requirements
+  - User Experience Design
+  - Business Rules
+2. Ensure the document has a clear structure and logical coherence.
+3. Integrate all feature modules, avoiding duplication and conflicts.
+4. Follow the detailed specifications; do not introduce new features. Only reorganize and combine the content of each module.
+5. Do not omit content or features.
+
+Please begin synthesizing the final document:
+
+\end{lstlisting}
+
+\subsection{User Simulation Prompt}
+\label{app:user prompt}
+\begin{lstlisting}[language={},basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,xleftmargin=0.05\textwidth,xrightmargin=0.05\textwidth]
+
+# Role Setup
+You are an entrepreneur with strong business vision but unfamiliar with technology. You cannot write code and do not understand technical jargon. You only understand content explained in non-technical terms, and your technical comprehension is roughly at a high-school level.
+
+You want to build the following product; this is your complete requirement: <prd_content>{prd_content}</prd_content>
+
+However, because you lack professional knowledge, you can imagine these functional needs but cannot articulate them precisely.
+
+Now, a product manager is eliciting your requirements. You will answer their questions according to the rules below to help clarify your product.
+
+
+# Current Focus
+We are now discussing the "{node.name}" part specifically.
+Location: {context_path}
+
+
+# Requirements
+1. Only answer questions related to "{node.name}"; do not discuss other modules.
+2. Answer based on your true needs; do not fabricate.
+3. Consider previously confirmed specifications and keep consistency.
+4. Firmly and accurately distinguish scope boundaries: your complete requirement document already contains all the features and level of detail you care about. You do not care how features outside that document are implemented, nor how finer-grained submodules are implemented. If asked about something you do not care about, you must respond with [DontCare].
+5. Firmly and accurately distinguish technical boundaries: you cannot write code and do not understand technical terms. You only understand content explained in non-technical form, with technical comprehension at a high-school level. For content you do not understand, you must respond with [DontKnow].
+6. Your responses must be only one of the following types. Aside from [DontKnow], [DontCare], and a direct answer, do not include any additional explanatory statements (e.g., references or citations).
+  - If the question cannot be answered within your knowledge scope, reply [DontKnow].
+  - If you do not care how a feature is implemented, or the question exceeds the granularity you care about, reply [DontCare].
+  - If you can answer directly, do not add extra explanation. If the question is a closed-form choice or ranking, reply only with the answer.
+  - Additionally, provide a decision confidence: a float between 0 and 1 indicating how certain you are. This certainty typically depends on how well the question is covered by your documented needs.
+  - Format: Answer: [ ] - Confidence: [ ]
+  
+\end{lstlisting}
+
+
+\subsection{Evaluation Prompts}
+\label{app:evaluation_prompts}
+We evaluate PRDs in two stages: (1) split the full PRD into module-specific segments according to the evaluation modules; (2) perform module-wise rubric evaluation and aggregate scores.
+
+\subsubsection{Split PRD into Modules}
+\begin{lstlisting}[language={},basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,xleftmargin=0.05\textwidth,xrightmargin=0.05\textwidth]
+
+You are a document analysis expert. Please split the Product Requirements Document (PRD) into the corresponding parts based on the given evaluation modules.
+
+## Available Evaluation Modules:
+{modules_info}
+
+## Splitting Requirements:
+1. Read the PRD carefully.
+2. Split the content by topic and functionality into the best matching module.
+3. Each module should include all related content from the PRD.
+4. If some content is ambiguous about which module it belongs to, include it in all plausible modules.
+5. Ensure all important content is covered; do not miss key information.
+
+## Output Format:
+The output must be valid JSON. Double quotes inside string values must be escaped with \":
+```json
+{
+  "Module 1 Name": "Content belonging to this module...",
+  "Module 2 Name": "Content belonging to this module...",
+  ...
+}
+```
+
+## Important Notes:
+- Ensure the JSON syntax is correct; escape double quotes in string values as \".
+- Do not include unescaped double quotes in JSON string values.
+- Output JSON only; do not include additional text.
+
+## PRD to Split:
+{md_content}
+
+Please analyze the document carefully and split it intelligently into the corresponding evaluation modules. Ensure the output is valid JSON.
+
+\end{lstlisting}
+
+\subsubsection{Module-wise Evaluation}
+\begin{lstlisting}[language={},basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,xleftmargin=0.05\textwidth,xrightmargin=0.05\textwidth]
+
+You are a product functionality evaluation expert. You need to evaluate whether a Product Requirements Document (PRD) satisfies the given rubrics.
+
+## Scoring Rules
+- If the PRD explicitly mentions the related feature or requirement: score 1
+- If the PRD does not mention it at all: score 0
+- If it is mentioned but insufficiently described: score 0.5
+- The total score is the average of all rubric scores
+
+## Output Format
+```json
+{
+  "eval": {
+    "Description of criterion 1": 1,
+    "Description of criterion 2": 0,
+    ...
+  },
+  "score": 0.5
+}
+```
+
+## Rubrics
+{rubrics}
+
+## PRD to Evaluate
+{prd_doc}
+
+Please read the PRD carefully, score each rubric, and compute the overall score. Output JSON only; do not output any other content.
+
+\end{lstlisting}
+
+
+\subsection{Progressive Reward Prompt}
+\label{app:prm prompt}
+\begin{lstlisting}[language={},basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,xleftmargin=0.05\textwidth,xrightmargin=0.05\textwidth]
+
+You are an evaluation expert. Your task is to evaluate the effectiveness of a requirements interview. Given the summary of the n-th requirements interview dialogue, the list of summaries from the previous n-1 dialogues, and the list of target functional points.
+
+Your specific evaluation task is to assess whether, after completing the n-th dialogue, the coverage of the target functional points has been improved compared to the previous n-1 dialogues.
+
+<Summary of the n-th dialogue>
+{node_document}
+</Summary of the n-th dialogue>
+
+<Historical dialogues from the previous n-1 rounds>
+{history_summary}
+</Historical dialogues from the previous n-1 rounds>
+
+<Target functional points>
+{features_text}
+</Target functional points>
+
+If it has promoted (improved coverage), output 1; if it has not promoted, output 0.
+Please output in JSON format and do not output any other content.
+{{
+    "score": 0 or 1,
+    "reason": "..."
+}}
+
+
+\end{lstlisting}
+
+
+\subsection{Rubrics Generation Prompt}
+\label{app:rubrics gen}
+\begin{lstlisting}[language={},basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,xleftmargin=0.05\textwidth,xrightmargin=0.05\textwidth]
+
+You will act as a senior Product Director. Given an example PRD, you need to extract key points as scoring samples (rubrics) to evaluate reproducibility when rebuilding the target website/product.
+A product typically spans several domains: Core Functionality, Interaction Design, Technical Architecture, Business Value, etc.
+
+## Output Format
+(Each extracted requirement should follow: [Domain] - [Specific requirement description])
+```json
+{
+  "rubrics": ["Requirement 1", "Requirement 2", "Requirement 3", ...]
+}
+```
+
+## Notes
+- Each requirement must be a complete sentence describing a fully specified requirement.
+- Keep requirements independent, complete, and actionable.
+- Each requirement should represent a single subfeature, e.g., [Privacy Settings] - [The system should support three visibility levels for resumes: public, password-protected, and private.]
+- Critically, include all functional points present in the PRD; do not omit any.
+- Do not fabricate content.
+- Ensure the output JSON is valid and directly parseable.
+
+## Good Examples
+- [Content Pagination] - [The system should intelligently handle PDF pagination to prevent truncation of key information.]
+- [Containerized Deployment] - [The system should provide a complete Docker-based container deployment solution and environment configuration options.]
+
+## Bad Examples (and why)
+- [User Authentication and Security Management] - The system should provide email signup (with real-time password strength checking), Google OAuth, GitHub OAuth, guest mode, delayed email verification post signup, and 6-digit code password recovery.
+  Reason: This mixes multiple subfeatures with weak cohesion; it should be decomposed into separate independent subfeatures.
+- Core Advantages - fully free & open source, 20-30 high-quality templates, intelligent AI assistance, multilingual support, community-driven, privacy & security.
+  Reason: Not in the required format; also not a single product feature but rather a product overview.
+- [Performance Metrics] - [Page load time < 3s and API response time < 500ms.]
+  Reason: Contains two distinct subfeatures; they should be split.
+
+## PRD Document
+{prd_doc}
+
+Please output only a JSON string with the array under "rubrics"; do not include any other text.
+
+\end{lstlisting}
+
+
+\end{document}
+
+% This document was modified from the file originally made available by
+% Pat Langley and Andrea Danyluk for ICML-2K. This version was created
+% by Iain Murray in 2018, and modified by Alexandre Bouchard in
+% 2019 and 2021 and by Csaba Szepesvari, Gang Niu and Sivan Sabato in 2022.
+% Modified again in 2023 and 2024 by Sivan Sabato and Jonathan Scarlett.
+% Previous contributors include Dan Roy, Lise Getoor and Tobias
+% Scheffer, which was slightly modified from the 2010 version by
+% Thorsten Joachims & Johannes Fuernkranz, slightly modified from the
+% 2009 version by Kiri Wagstaff and Sam Roweis's 2008 version, which is
+% slightly modified from Prasad Tadepalli's 2007 version which is a
+% lightly changed version of the previous year's version by Andrew
+% Moore, which was in turn edited from those of Kristian Kersting and
+% Codrina Lauth. Alex Smola contributed to the algorithmic style files.

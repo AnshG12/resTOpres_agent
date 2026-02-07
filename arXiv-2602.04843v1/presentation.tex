@@ -1,0 +1,139 @@
+\documentclass{beamer}
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{cleveref}
+\usepackage{booktabs}
+
+\title{Presentation}
+\author{}
+\institute{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Overview}
+
+\begin{itemize}
+  \item \textbf{Identified a novel, interpretable "behavioral signature" in LLM reasoning.} The paper discovers that specific, recurring patterns in model reasoning traces (like "mixed violent/consumption metaphors" or "abstract mystical/spiritual terms") can be systematically linked to performance outcomes.
+  \item \textbf{Established cross-model validity, showing the phenomenon is not an artifact of a single model.} The findings are proven not to be unique to one model (like QwQ-32B) but are observed across different reasoning models, indicating a more fundamental property of LLM reasoning.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+        \frametitle{Representational Studies}
+
+    \begin{itemize}
+      \item We propose "Fluid Reasoning Representations" as the evolving internal states LLMs develop for abstract reasoning, analogous to human fluid intelligence.
+  \item Our analysis tracks how QwQ-32B's representations of actions and predicates transform across reasoning steps in Mystery BlocksWorld puzzles.
+  \item Representations shift from generic word meanings to context-specific semantics, enabling reasoning independent of surface-level text.
+  \item This refinement process is measurable, showing a clear progression in the model's internal encoding of problem entities.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Causal validation}
+
+    \begin{itemize}
+      \item Representational analysis shows QwQ-32B dynamically adapts action and predicate representations beyond their original lexical meanings.
+  \item These adaptations appear independent of the original word semantics, suggesting a decoupling from linguistic context.
+  \item Hypothesis 1: These adaptations reflect genuine improvements in understanding the abstract structure of puzzles.
+  \item Hypothesis 2: Adapted representations achieve symbolic abstraction, enabling transfer across different naming schemes.
+  \item We designed steering experiments to directly test if these learned representations contain actionable structural knowledge.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Causal validation (cont.)}
+
+    \begin{itemize}
+      \item A key goal is to validate whether the model's internal representations can function independently of their original token context.
+  \item The experiments probe if the model uses abstracted representations for reasoning, not just surface-level lexical patterns.
+  \item Testing focuses on whether structural knowledge can be "steered" to solve puzzles under novel linguistic conditions.
+  \item Success would demonstrate that the model builds a transferable, symbolic understanding of puzzle mechanics.
+  \item This causal validation moves beyond correlation to establish a functional link between representation and reasoning capability.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Conclusion}
+
+    \begin{itemize}
+      \item QwQ-32B progressively refines internal representations of actions and predicates during long reasoning, converging toward abstract, surface-level-independent encodings.
+  \item Causal steering experiments confirm these refined representations directly influence performance: injecting them increases accuracy, while disrupting them decreases it.
+  \item The model demonstrates symbolic abstraction, with representations transferring across obfuscated namings, indicating naming-invariant structural encoding.
+  \item Superior abstract reasoning performance may stem from the model's ability to dynamically construct context-specific representational spaces.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Behavior analysis}
+
+    \begin{itemize}
+      \item Models initiate problem-solving by performing a \textbf{comparative analysis} to pinpoint conflicting predicates between initial and goal states.
+  \item The reasoning process is distinctly biphasic, with the first half dominated by \textbf{exploratory behaviors} like recursive search and action experimentation.
+  \item \textbf{Recursive search} is a core strategy where models work backwards from goals to deduce prerequisite actions.
+  \item \textbf{Exploration phases} involve actively testing actions to discover new, achievable intermediate states.
+  \item The second half of reasoning traces shifts decisively to \textbf{plan formulation}, where concrete action sequences are constructed.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Behavior analysis (cont.)}
+
+    \begin{itemize}
+      \item During plan formulation, models frequently rebuild their sequences iteratively when internal conflicts are detected.
+  \item A final \textbf{plan verification} phase ensures solution validity before any answer is committed.
+  \item The entire workflow reveals a structured pattern: analysis → exploration → formulation → verification.
+  \item Manual trace analysis confirms that these behavioral patterns are \textbf{recurring} across different problem instances.
+  \item The heavy reliance on exploration early on suggests models are \textbf{discovering constraints} rather than applying pre-defined rules.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Layer-wise PCA of action representations}
+    \begin{columns}
+      \begin{column}{0.55\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/pca_layer_analysis_7k_seed_instruct.pdf}
+      \end{column}
+      \begin{column}{0.4\textwidth}
+        \begin{itemize}
+      \item Layer-wise PCA of action representations from different mystery namings extracted at 7k tokens for (a) QwQ, (b) Qwen-32B DeepSeek, (c) Llama Nemotron 49B and (d) Seed-OSS-36B-Instruct
+  \item Apply PCA to each transformer layer separately to isolate and analyze distinct feature evolution patterns across the network depth.
+  \item Identify the top principal components in early layers that primarily encode syntactic information, guiding model interpretability efforts.
+        \end{itemize}
+      \end{column}
+    \end{columns}
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Layer-wise PCA}
+
+    \begin{itemize}
+      \item Use the finding that final layers concentrate variance into fewer, task-specific components to optimize model pruning strategies.
+  \item Analyze the explained variance ratio per layer to quantify and compare the intrinsic dimensionality of representations at each stage.
+  \item Correlate the stability of principal components across layers with model performance to diagnose and improve training stability.
+  \item Implement layer-wise PCA during fine-tuning to monitor and steer the specialization of features for your downstream task.
+    \end{itemize}
+
+    \end{frame}
+    
+\end{document}

@@ -409,14 +409,27 @@ class PresentationAgent:
         self.process_pipeline()
         return self.beamer_code
     
-    def save_presentation(self, filepath: str) -> None:
-        """Save Beamer code to file"""
+    def save_presentation(self, filepath: Optional[str] = None) -> Path:
+        """
+        Save Beamer code to file.
+
+        Args:
+            filepath: Path to write .tex file. If None, defaults to {paper_root}/presentation.tex
+
+        Returns:
+            Path object pointing to the saved .tex file
+        """
         if self.beamer_code is None:
             raise ValueError("No presentation generated yet. Call process_pipeline() first.")
-        
+
+        # Default to saving in paper folder if no path specified
+        if filepath is None:
+            filepath = self.paper_root / "presentation.tex"
+
         path = Path(filepath)
         path.write_text(self.beamer_code)
         self.log(f"Saved presentation to: {filepath}")
+        return path
     
     def save_report(self, filepath: str) -> None:
         """Save processing report"""
@@ -439,6 +452,95 @@ class PresentationAgent:
         """Log message"""
         print(message)
         self.pipeline_log.append(message)
+
+    def compile_to_pdf(self, tex_path: Path) -> bool:
+        """
+        Compile .tex to PDF using latexmk.
+
+        latexmk automatically runs pdflatex multiple times as needed for references,
+        citations, and cross-references.
+
+        Args:
+            tex_path: Path to .tex file
+
+        Returns:
+            True if compilation succeeded, False otherwise
+        """
+        import subprocess
+        import os
+
+        original_cwd = Path.cwd()
+
+        try:
+            # Change to paper root so relative figure paths work
+            os.chdir(self.paper_root)
+
+            self.log(f"  📄 Running latexmk on {tex_path.name}...")
+
+            result = subprocess.run(
+                [
+                    "latexmk",
+                    "-pdf",                     # Use pdflatex
+                    "-interaction=nonstopmode", # Don't stop on errors
+                    "-file-line-error",         # Better error messages
+                    "-quiet",                   # Less verbose output
+                    tex_path.name
+                ],
+                capture_output=True,
+                text=True,
+                timeout=180  # 3 minute timeout (latexmk may run multiple passes)
+            )
+
+            if result.returncode != 0:
+                self.log(f"⚠️  LaTeX compilation failed:")
+                # Parse errors from log
+                errors = self._parse_latex_errors(result.stdout + result.stderr)
+                for error in errors[:10]:  # Show first 10 errors
+                    self.log(f"   {error}")
+                return False
+
+            # Use just the filename since we're already in paper_root directory
+            pdf_name = Path(tex_path.name).with_suffix('.pdf')  # Just "presentation.pdf"
+            if pdf_name.exists():
+                # Show full path in log for user clarity
+                full_pdf_path = self.paper_root / pdf_name
+                self.log(f"✓ PDF created: {full_pdf_path}")
+
+                # Clean up auxiliary files (also use just filename)
+                self._cleanup_latex_aux_files(Path(tex_path.name))
+                return True
+            else:
+                self.log("⚠️  PDF not found after compilation")
+                return False
+
+        except subprocess.TimeoutExpired:
+            self.log("⚠️  LaTeX compilation timed out (>3 minutes)")
+            return False
+        except FileNotFoundError:
+            self.log("⚠️  latexmk not found. Install TeX Live with: brew install --cask mactex (macOS) or apt-get install latexmk (Linux)")
+            return False
+        finally:
+            os.chdir(original_cwd)
+
+    def _cleanup_latex_aux_files(self, tex_path: Path) -> None:
+        """Remove auxiliary LaTeX files after successful compilation"""
+        aux_extensions = ['.aux', '.log', '.out', '.nav', '.snm', '.toc', '.fdb_latexmk', '.fls']
+        for ext in aux_extensions:
+            # Use just the filename stem since we're in paper_root during cleanup call
+            aux_file = Path(tex_path.stem + ext)
+            if aux_file.exists():
+                try:
+                    aux_file.unlink()
+                except Exception:
+                    pass  # Ignore cleanup errors
+
+    def _parse_latex_errors(self, log_output: str) -> list[str]:
+        """Extract error messages from LaTeX log output"""
+        errors = []
+        for line in log_output.split('\n'):
+            if line.startswith('!') or 'Error:' in line or 'error:' in line:
+                errors.append(line.strip())
+        return errors
 
 
 # Example usage

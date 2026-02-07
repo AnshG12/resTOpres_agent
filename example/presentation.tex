@@ -1,0 +1,61 @@
+\documentclass{beamer}
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{cleveref}
+\usepackage{booktabs}
+
+\title{Presentation}
+\author{}
+\institute{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Overview}
+
+\begin{itemize}
+  \item Top 3 Contributions
+  \item \textbf{Introduces a Scalable Interactive Oversight Method} – A novel framework for human-AI collaboration that scales oversight throughout the interaction process.
+  \item \textbf{Defines Practical User Feedback Signals} – Incorporates clear user response options like \texttt{DontCare} and \texttt{DontKnow} to handle uncertainty and scope efficiently.
+  \item \textbf{Establishes a Complete, Terminable Interaction Loop} – Implements a structured iterative process that guarantees resolution by visiting all nodes until oversight is achieved.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+        \frametitle{Preliminary \& Problem Setup}
+
+    \begin{itemize}
+      \item Our method empowers non-experts to steer advanced LLMs, bridging the gap to professional-quality outputs.
+  \item We tackle the core challenge of evaluating alignment when user intent is latent and not directly observable.
+  \item The research setup operationalizes the theoretical "sandwich" protocol to enable rigorous, structured assessment.
+  \item This protocol provides a concrete framework to measure how well LLM outputs match the user's true, underlying goals.
+    \end{itemize}
+
+    \end{frame}
+    
+\begin{frame}
+        \frametitle{Method: Scalable Interactive Oversight}
+
+    \begin{itemize}
+      \item Introduces an interaction agent for scalable oversight through a decomposition-interaction loop.
+  \item Users can respond with "DontCare" for irrelevant items or "DontKnow" for unclear ones, adapting the process.
+  \item The loop iterates until all nodes are visited, ensuring comprehensive preference collection.
+  \item At termination, the agent produces a global preference state for downstream generation tasks.
+  \item Algorithm 1 formalizes the interaction workflow, providing a structured implementation.
+    \end{itemize}
+
+    \end{frame}
+    
+\end{document}
