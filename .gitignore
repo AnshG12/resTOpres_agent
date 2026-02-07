@@ -31,6 +31,11 @@ report.json
 *.nav
 *.snm
 *.vrb
+*.fdb_latexmk
+*.fls
+
+# Claude Code plan files
+.claude/
 
 # Temporary debugging scripts (but NOT tests/ directory)
 test_*.py
